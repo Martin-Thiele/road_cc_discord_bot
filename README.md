@@ -178,3 +178,32 @@ Carlos Rodriguez -> Alfred Wright
 Jay Vine -> Rigoberto Uran
 ```
 </details>
+
+## Setup
+This will be a losely written guide.
+
+
+
+1. Create a `.env` file with the following settings filled out with your details
+
+
+```
+DISCORD_KEY=
+DISCORD_CHANNEL_ID=
+ROAD_USERNAME=
+ROAD_PASSWORD=
+ROAD_USERID=
+```
+2 run `pip install -r requirements.txt` to install python dependencies
+
+3 run bot with `python pybot.py`
+
+
+## Setting the bot up for a new competition
+A lot of things could have been done prettier, but this was intended to be a simple bot for use between friends, as such things aren't streamlined.
+
+1. Update the settings defined at the top of `pybot.py`
+2. For new pictures of stages, do similar to what has been done in the `get_profile` function
+3. For old competitions to be functional for commands do similar to what has been done in the `get_tournament` function
+4. Outcomment `job.start` and `client.run` and run the `main` function to keep a list of riders, teams, value, age, etc. in a local file. Rename the generated file from `riders_new.json` to `rider_scores.json`. Don't override your old one if you want to keep it(!)
+5. Maybe(?) reset `fantasy_status.json`. `Date` should be the date of the first stage, `found` should be false, `previousHigh` should be 0 and `deadline` should be the deadline of the transfer window.
