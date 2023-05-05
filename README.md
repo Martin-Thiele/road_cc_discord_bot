@@ -205,5 +205,5 @@ A lot of things could have been done prettier, but this was intended to be a sim
 1. Update the settings defined at the top of `pybot.py`
 2. For new pictures of stages, do similar to what has been done in the `get_profile` function
 3. For old competitions to be functional for commands do similar to what has been done in the `get_tournament` function
-4. Outcomment `job.start` and `client.run` and run the `main` function to keep a list of riders, teams, value, age, etc. in a local file. Rename the generated file from `riders_new.json` to `rider_scores.json`. Don't override your old one if you want to keep it(!)
+4. Outcomment `job.start` and `client.run` and run the `main` function to keep a list of riders, teams, value, age, etc. in a local file. Rename the generated file from `riders_new.json` to `rider_scores.json`, and make a copy of it called `template.json`. Don't override your old one if you want to keep it(!)
 5. Maybe(?) reset `fantasy_status.json`. `Date` should be the date of the first stage, `found` should be false, `previousHigh` should be 0 and `deadline` should be the deadline of the transfer window.
