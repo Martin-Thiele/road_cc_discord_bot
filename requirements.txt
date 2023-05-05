@@ -1,0 +1,7 @@
+python-dotenv
+discord.py
+requests
+beautifulsoup4
+python-dateutil
+asyncio
+thefuzz

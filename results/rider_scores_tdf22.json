@@ -1,0 +1,4650 @@
+{
+    "Yves Lampaert":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 50
+            },
+            {
+                "stage": 2,
+                "points": 21
+            },
+            {
+                "stage": 3,
+                "points": 9
+            },
+            {
+                "stage": 4,
+                "points": 9
+            },
+            {
+                "stage": 5,
+                "points": 6
+            },
+            {
+                "stage": 19,
+                "points": 4
+            },
+            {
+                "stage": 21,
+                "points": 6
+            }
+        ]
+    },
+    "Wout Van Aert":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 43
+            },
+            {
+                "stage": 2,
+                "points": 57
+            },
+            {
+                "stage": 3,
+                "points": 59
+            },
+            {
+                "stage": 4,
+                "points": 67
+            },
+            {
+                "stage": 5,
+                "points": 32
+            },
+            {
+                "stage": 6,
+                "points": 34
+            },
+            {
+                "stage": 7,
+                "points": 10
+            },
+            {
+                "stage": 8,
+                "points": 51
+            },
+            {
+                "stage": 9,
+                "points": 20
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 36
+            },
+            {
+                "stage": 12,
+                "points": 14
+            },
+            {
+                "stage": 13,
+                "points": 29
+            },
+            {
+                "stage": 14,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 48
+            },
+            {
+                "stage": 16,
+                "points": 35
+            },
+            {
+                "stage": 17,
+                "points": 19
+            },
+            {
+                "stage": 18,
+                "points": 81
+            },
+            {
+                "stage": 19,
+                "points": 20
+            },
+            {
+                "stage": 20,
+                "points": 41
+            },
+            {
+                "stage": 21,
+                "points": 6
+            }
+        ]
+    },
+    "Tadej Pogacar":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 41
+            },
+            {
+                "stage": 2,
+                "points": 13
+            },
+            {
+                "stage": 3,
+                "points": 13
+            },
+            {
+                "stage": 4,
+                "points": 14
+            },
+            {
+                "stage": 5,
+                "points": 28
+            },
+            {
+                "stage": 6,
+                "points": 50
+            },
+            {
+                "stage": 7,
+                "points": 57
+            },
+            {
+                "stage": 8,
+                "points": 47
+            },
+            {
+                "stage": 9,
+                "points": 39
+            },
+            {
+                "stage": 10,
+                "points": 20
+            },
+            {
+                "stage": 11,
+                "points": 35
+            },
+            {
+                "stage": 12,
+                "points": 38
+            },
+            {
+                "stage": 13,
+                "points": 27
+            },
+            {
+                "stage": 14,
+                "points": 18
+            },
+            {
+                "stage": 15,
+                "points": 39
+            },
+            {
+                "stage": 16,
+                "points": 23
+            },
+            {
+                "stage": 17,
+                "points": 66
+            },
+            {
+                "stage": 18,
+                "points": 50
+            },
+            {
+                "stage": 19,
+                "points": 39
+            },
+            {
+                "stage": 20,
+                "points": 45
+            },
+            {
+                "stage": 21,
+                "points": 20
+            }
+        ]
+    },
+    "Filippo Ganna":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 31
+            },
+            {
+                "stage": 2,
+                "points": 7
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 36
+            },
+            {
+                "stage": 17,
+                "points": 8
+            },
+            {
+                "stage": 20,
+                "points": 20
+            }
+        ]
+    },
+    "Mathieu van der Poel":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 27
+            },
+            {
+                "stage": 2,
+                "points": 7
+            },
+            {
+                "stage": 3,
+                "points": 6
+            },
+            {
+                "stage": 4,
+                "points": 6
+            },
+            {
+                "stage": 11,
+                "points": 14
+            }
+        ]
+    },
+    "Mads Pedersen":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 23
+            },
+            {
+                "stage": 2,
+                "points": 34
+            },
+            {
+                "stage": 3,
+                "points": 16
+            },
+            {
+                "stage": 4,
+                "points": 16
+            },
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 15
+            },
+            {
+                "stage": 13,
+                "points": 69
+            },
+            {
+                "stage": 14,
+                "points": 2
+            },
+            {
+                "stage": 15,
+                "points": 33
+            },
+            {
+                "stage": 16,
+                "points": 2
+            },
+            {
+                "stage": 17,
+                "points": 2
+            },
+            {
+                "stage": 18,
+                "points": 2
+            },
+            {
+                "stage": 19,
+                "points": 1
+            }
+        ]
+    },
+    "Jonas Vingegaard":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 20
+            },
+            {
+                "stage": 2,
+                "points": 4
+            },
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 4,
+                "points": 10
+            },
+            {
+                "stage": 5,
+                "points": 8
+            },
+            {
+                "stage": 6,
+                "points": 24
+            },
+            {
+                "stage": 7,
+                "points": 42
+            },
+            {
+                "stage": 8,
+                "points": 31
+            },
+            {
+                "stage": 9,
+                "points": 27
+            },
+            {
+                "stage": 10,
+                "points": 8
+            },
+            {
+                "stage": 11,
+                "points": 49
+            },
+            {
+                "stage": 12,
+                "points": 31
+            },
+            {
+                "stage": 13,
+                "points": 15
+            },
+            {
+                "stage": 14,
+                "points": 12
+            },
+            {
+                "stage": 15,
+                "points": 12
+            },
+            {
+                "stage": 16,
+                "points": 18
+            },
+            {
+                "stage": 17,
+                "points": 52
+            },
+            {
+                "stage": 18,
+                "points": 50
+            },
+            {
+                "stage": 19,
+                "points": 29
+            },
+            {
+                "stage": 20,
+                "points": 50
+            },
+            {
+                "stage": 21,
+                "points": 15
+            }
+        ]
+    },
+    "Primoz Roglic":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 17
+            },
+            {
+                "stage": 2,
+                "points": 3
+            },
+            {
+                "stage": 3,
+                "points": 4
+            },
+            {
+                "stage": 4,
+                "points": 9
+            },
+            {
+                "stage": 6,
+                "points": 12
+            },
+            {
+                "stage": 7,
+                "points": 27
+            },
+            {
+                "stage": 8,
+                "points": 14
+            },
+            {
+                "stage": 9,
+                "points": 7
+            },
+            {
+                "stage": 11,
+                "points": 6
+            }
+        ]
+    },
+    "Bauke Mollema":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 14
+            },
+            {
+                "stage": 2,
+                "points": 2
+            },
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 2
+            },
+            {
+                "stage": 20,
+                "points": 18
+            }
+        ]
+    },
+    "Dylan Teuns":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 12
+            },
+            {
+                "stage": 6,
+                "points": 18
+            },
+            {
+                "stage": 7,
+                "points": 10
+            },
+            {
+                "stage": 11,
+                "points": 10
+            },
+            {
+                "stage": 16,
+                "points": 16
+            },
+            {
+                "stage": 17,
+                "points": 1
+            },
+            {
+                "stage": 18,
+                "points": 6
+            }
+        ]
+    },
+    "Thomas Pidcock":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 10
+            },
+            {
+                "stage": 2,
+                "points": 4
+            },
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 5,
+                "points": 6
+            },
+            {
+                "stage": 6,
+                "points": 32
+            },
+            {
+                "stage": 7,
+                "points": 15
+            },
+            {
+                "stage": 8,
+                "points": 19
+            },
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 10,
+                "points": 7
+            },
+            {
+                "stage": 11,
+                "points": 7
+            },
+            {
+                "stage": 12,
+                "points": 58
+            },
+            {
+                "stage": 13,
+                "points": 7
+            },
+            {
+                "stage": 14,
+                "points": 6
+            },
+            {
+                "stage": 15,
+                "points": 6
+            },
+            {
+                "stage": 16,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 5
+            },
+            {
+                "stage": 18,
+                "points": 4
+            },
+            {
+                "stage": 19,
+                "points": 4
+            },
+            {
+                "stage": 20,
+                "points": 4
+            },
+            {
+                "stage": 21,
+                "points": 4
+            }
+        ]
+    },
+    "Frederic Frison":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 10
+            },
+            {
+                "stage": 8,
+                "points": 16
+            },
+            {
+                "stage": 9,
+                "points": 10
+            },
+            {
+                "stage": 13,
+                "points": 2
+            }
+        ]
+    },
+    "Magnus Cort":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 10
+            },
+            {
+                "stage": 2,
+                "points": 22
+            },
+            {
+                "stage": 3,
+                "points": 34
+            },
+            {
+                "stage": 4,
+                "points": 24
+            },
+            {
+                "stage": 5,
+                "points": 49
+            },
+            {
+                "stage": 6,
+                "points": 7
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 2
+            },
+            {
+                "stage": 10,
+                "points": 51
+            },
+            {
+                "stage": 11,
+                "points": 2
+            },
+            {
+                "stage": 12,
+                "points": 2
+            },
+            {
+                "stage": 14,
+                "points": 1
+            }
+        ]
+    },
+    "Bob Jungels":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 9
+            },
+            {
+                "stage": 8,
+                "points": 12
+            },
+            {
+                "stage": 9,
+                "points": 68
+            },
+            {
+                "stage": 10,
+                "points": 4
+            },
+            {
+                "stage": 12,
+                "points": 4
+            },
+            {
+                "stage": 17,
+                "points": 6
+            },
+            {
+                "stage": 18,
+                "points": 2
+            }
+        ]
+    },
+    "Adam Yates":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 8
+            },
+            {
+                "stage": 3,
+                "points": 3
+            },
+            {
+                "stage": 4,
+                "points": 3
+            },
+            {
+                "stage": 5,
+                "points": 3
+            },
+            {
+                "stage": 6,
+                "points": 16
+            },
+            {
+                "stage": 7,
+                "points": 19
+            },
+            {
+                "stage": 8,
+                "points": 10
+            },
+            {
+                "stage": 9,
+                "points": 21
+            },
+            {
+                "stage": 10,
+                "points": 6
+            },
+            {
+                "stage": 11,
+                "points": 23
+            },
+            {
+                "stage": 12,
+                "points": 20
+            },
+            {
+                "stage": 13,
+                "points": 6
+            },
+            {
+                "stage": 14,
+                "points": 6
+            },
+            {
+                "stage": 15,
+                "points": 6
+            },
+            {
+                "stage": 16,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 2
+            },
+            {
+                "stage": 18,
+                "points": 8
+            },
+            {
+                "stage": 21,
+                "points": 1
+            }
+        ]
+    },
+    "Stefan Kung":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 7
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 3,
+                "points": 2
+            },
+            {
+                "stage": 4,
+                "points": 2
+            },
+            {
+                "stage": 13,
+                "points": 37
+            },
+            {
+                "stage": 14,
+                "points": 12
+            },
+            {
+                "stage": 20,
+                "points": 10
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Mattia Cattaneo":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 6
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 26
+            },
+            {
+                "stage": 20,
+                "points": 16
+            }
+        ]
+    },
+    "Kasper Asgreen":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 6
+            }
+        ]
+    },
+    "Andrea Bagioli":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 2
+            }
+        ]
+    },
+    "Jan Tratnik":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 11
+            },
+            {
+                "stage": 20,
+                "points": 11
+            },
+            {
+                "stage": 21,
+                "points": 14
+            }
+        ]
+    },
+    "Mikkel Frolich Honore":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 16
+            },
+            {
+                "stage": 16,
+                "points": 16
+            },
+            {
+                "stage": 19,
+                "points": 12
+            }
+        ]
+    },
+    "Florian Senechal":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 14
+            },
+            {
+                "stage": 15,
+                "points": 16
+            },
+            {
+                "stage": 19,
+                "points": 22
+            }
+        ]
+    },
+    "Fabio Jakobsen":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 48
+            },
+            {
+                "stage": 3,
+                "points": 37
+            },
+            {
+                "stage": 4,
+                "points": 25
+            },
+            {
+                "stage": 5,
+                "points": 25
+            },
+            {
+                "stage": 6,
+                "points": 15
+            },
+            {
+                "stage": 7,
+                "points": 7
+            },
+            {
+                "stage": 8,
+                "points": 13
+            },
+            {
+                "stage": 9,
+                "points": 4
+            },
+            {
+                "stage": 10,
+                "points": 4
+            },
+            {
+                "stage": 11,
+                "points": 20
+            },
+            {
+                "stage": 12,
+                "points": 3
+            },
+            {
+                "stage": 13,
+                "points": 3
+            },
+            {
+                "stage": 14,
+                "points": 3
+            },
+            {
+                "stage": 16,
+                "points": 1
+            },
+            {
+                "stage": 17,
+                "points": 11
+            },
+            {
+                "stage": 18,
+                "points": 1
+            },
+            {
+                "stage": 21,
+                "points": 9
+            }
+        ]
+    },
+    "Michael Morkov":
+    {
+        "team": "Quick-Step Alpha Vinyl Team",
+        "stages":
+        [
+            {
+                "stage": 1,
+                "points": 5
+            },
+            {
+                "stage": 2,
+                "points": 12
+            },
+            {
+                "stage": 3,
+                "points": 14
+            },
+            {
+                "stage": 4,
+                "points": 11
+            },
+            {
+                "stage": 6,
+                "points": 9
+            },
+            {
+                "stage": 7,
+                "points": 2
+            },
+            {
+                "stage": 8,
+                "points": 8
+            },
+            {
+                "stage": 11,
+                "points": 5
+            }
+        ]
+    },
+    "Peter Sagan":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 31
+            },
+            {
+                "stage": 3,
+                "points": 35
+            },
+            {
+                "stage": 4,
+                "points": 33
+            },
+            {
+                "stage": 5,
+                "points": 8
+            },
+            {
+                "stage": 6,
+                "points": 1
+            },
+            {
+                "stage": 15,
+                "points": 22
+            },
+            {
+                "stage": 21,
+                "points": 20
+            }
+        ]
+    },
+    "Sven Erik Bystrom":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 25
+            },
+            {
+                "stage": 3,
+                "points": 4
+            }
+        ]
+    },
+    "Jeremy Lecroq":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 24
+            },
+            {
+                "stage": 3,
+                "points": 8
+            },
+            {
+                "stage": 18,
+                "points": 10
+            },
+            {
+                "stage": 21,
+                "points": 18
+            }
+        ]
+    },
+    "Danny van Poppel":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 22
+            },
+            {
+                "stage": 3,
+                "points": 12
+            },
+            {
+                "stage": 4,
+                "points": 16
+            },
+            {
+                "stage": 15,
+                "points": 20
+            },
+            {
+                "stage": 21,
+                "points": 16
+            }
+        ]
+    },
+    "Caleb Ewan":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 21
+            },
+            {
+                "stage": 3,
+                "points": 22
+            },
+            {
+                "stage": 4,
+                "points": 8
+            },
+            {
+                "stage": 10,
+                "points": 10
+            },
+            {
+                "stage": 15,
+                "points": 10
+            },
+            {
+                "stage": 16,
+                "points": 10
+            },
+            {
+                "stage": 19,
+                "points": 11
+            },
+            {
+                "stage": 21,
+                "points": 14
+            }
+        ]
+    },
+    "Jasper Philipsen":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 20
+            },
+            {
+                "stage": 3,
+                "points": 25
+            },
+            {
+                "stage": 4,
+                "points": 31
+            },
+            {
+                "stage": 5,
+                "points": 18
+            },
+            {
+                "stage": 6,
+                "points": 18
+            },
+            {
+                "stage": 7,
+                "points": 2
+            },
+            {
+                "stage": 8,
+                "points": 14
+            },
+            {
+                "stage": 9,
+                "points": 2
+            },
+            {
+                "stage": 11,
+                "points": 7
+            },
+            {
+                "stage": 12,
+                "points": 8
+            },
+            {
+                "stage": 15,
+                "points": 48
+            },
+            {
+                "stage": 16,
+                "points": 3
+            },
+            {
+                "stage": 17,
+                "points": 18
+            },
+            {
+                "stage": 18,
+                "points": 3
+            },
+            {
+                "stage": 19,
+                "points": 44
+            },
+            {
+                "stage": 20,
+                "points": 3
+            },
+            {
+                "stage": 21,
+                "points": 39
+            }
+        ]
+    },
+    "Dylan Groenewegen":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 14
+            },
+            {
+                "stage": 3,
+                "points": 38
+            },
+            {
+                "stage": 14,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 18
+            },
+            {
+                "stage": 19,
+                "points": 16
+            },
+            {
+                "stage": 21,
+                "points": 30
+            }
+        ]
+    },
+    "Christophe Laporte":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 13
+            },
+            {
+                "stage": 3,
+                "points": 30
+            },
+            {
+                "stage": 4,
+                "points": 41
+            },
+            {
+                "stage": 5,
+                "points": 7
+            },
+            {
+                "stage": 6,
+                "points": 10
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 16
+            },
+            {
+                "stage": 10,
+                "points": 15
+            },
+            {
+                "stage": 11,
+                "points": 6
+            },
+            {
+                "stage": 13,
+                "points": 8
+            },
+            {
+                "stage": 18,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 37
+            },
+            {
+                "stage": 20,
+                "points": 7
+            },
+            {
+                "stage": 21,
+                "points": 2
+            }
+        ]
+    },
+    "Luca Mozzato":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 12
+            },
+            {
+                "stage": 4,
+                "points": 18
+            },
+            {
+                "stage": 5,
+                "points": 12
+            },
+            {
+                "stage": 13,
+                "points": 12
+            },
+            {
+                "stage": 15,
+                "points": 14
+            },
+            {
+                "stage": 21,
+                "points": 10
+            }
+        ]
+    },
+    "Hugo Hofstetter":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 11
+            },
+            {
+                "stage": 3,
+                "points": 14
+            },
+            {
+                "stage": 4,
+                "points": 14
+            },
+            {
+                "stage": 15,
+                "points": 6
+            },
+            {
+                "stage": 19,
+                "points": 14
+            },
+            {
+                "stage": 21,
+                "points": 12
+            }
+        ]
+    },
+    "Max Walscheid":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 11
+            },
+            {
+                "stage": 5,
+                "points": 9
+            }
+        ]
+    },
+    "Alexander Kristoff":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 10
+            },
+            {
+                "stage": 3,
+                "points": 10
+            },
+            {
+                "stage": 4,
+                "points": 22
+            },
+            {
+                "stage": 13,
+                "points": 7
+            },
+            {
+                "stage": 15,
+                "points": 8
+            },
+            {
+                "stage": 19,
+                "points": 6
+            },
+            {
+                "stage": 21,
+                "points": 25
+            }
+        ]
+    },
+    "Anthony Turgis":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 10
+            },
+            {
+                "stage": 5,
+                "points": 4
+            }
+        ]
+    },
+    "Jasper Stuyven":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 8
+            },
+            {
+                "stage": 3,
+                "points": 7
+            },
+            {
+                "stage": 5,
+                "points": 18
+            },
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 8
+            },
+            {
+                "stage": 21,
+                "points": 22
+            }
+        ]
+    },
+    "Edvald Boasson Hagen":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 6
+            },
+            {
+                "stage": 5,
+                "points": 46
+            },
+            {
+                "stage": 10,
+                "points": 15
+            },
+            {
+                "stage": 13,
+                "points": 3
+            }
+        ]
+    },
+    "Andrea Pasqualon":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 5
+            },
+            {
+                "stage": 4,
+                "points": 7
+            },
+            {
+                "stage": 6,
+                "points": 3
+            },
+            {
+                "stage": 13,
+                "points": 11
+            },
+            {
+                "stage": 15,
+                "points": 12
+            },
+            {
+                "stage": 21,
+                "points": 7
+            }
+        ]
+    },
+    "David Gaudu":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 4
+            },
+            {
+                "stage": 6,
+                "points": 28
+            },
+            {
+                "stage": 7,
+                "points": 24
+            },
+            {
+                "stage": 8,
+                "points": 15
+            },
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 24
+            },
+            {
+                "stage": 12,
+                "points": 12
+            },
+            {
+                "stage": 13,
+                "points": 4
+            },
+            {
+                "stage": 14,
+                "points": 3
+            },
+            {
+                "stage": 15,
+                "points": 3
+            },
+            {
+                "stage": 16,
+                "points": 9
+            },
+            {
+                "stage": 17,
+                "points": 22
+            },
+            {
+                "stage": 18,
+                "points": 27
+            },
+            {
+                "stage": 19,
+                "points": 12
+            },
+            {
+                "stage": 20,
+                "points": 7
+            },
+            {
+                "stage": 21,
+                "points": 7
+            }
+        ]
+    },
+    "Neilson Powless":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 4
+            },
+            {
+                "stage": 5,
+                "points": 41
+            },
+            {
+                "stage": 6,
+                "points": 16
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 3
+            },
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 12,
+                "points": 53
+            },
+            {
+                "stage": 14,
+                "points": 19
+            },
+            {
+                "stage": 15,
+                "points": 3
+            },
+            {
+                "stage": 16,
+                "points": 16
+            },
+            {
+                "stage": 20,
+                "points": 4
+            }
+        ]
+    },
+    "Kevin Geniets":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 3
+            }
+        ]
+    },
+    "Florian Vermeersch":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 3
+            },
+            {
+                "stage": 3,
+                "points": 3
+            },
+            {
+                "stage": 4,
+                "points": 9
+            },
+            {
+                "stage": 5,
+                "points": 2
+            },
+            {
+                "stage": 13,
+                "points": 1
+            },
+            {
+                "stage": 15,
+                "points": 10
+            }
+        ]
+    },
+    "Brandon McNulty":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 2
+            },
+            {
+                "stage": 3,
+                "points": 3
+            },
+            {
+                "stage": 4,
+                "points": 2
+            },
+            {
+                "stage": 6,
+                "points": 8
+            },
+            {
+                "stage": 7,
+                "points": 8
+            },
+            {
+                "stage": 8,
+                "points": 3
+            },
+            {
+                "stage": 9,
+                "points": 3
+            },
+            {
+                "stage": 10,
+                "points": 3
+            },
+            {
+                "stage": 11,
+                "points": 3
+            },
+            {
+                "stage": 12,
+                "points": 3
+            },
+            {
+                "stage": 13,
+                "points": 3
+            },
+            {
+                "stage": 14,
+                "points": 3
+            },
+            {
+                "stage": 15,
+                "points": 6
+            },
+            {
+                "stage": 16,
+                "points": 15
+            },
+            {
+                "stage": 17,
+                "points": 49
+            },
+            {
+                "stage": 18,
+                "points": 3
+            },
+            {
+                "stage": 19,
+                "points": 3
+            },
+            {
+                "stage": 20,
+                "points": 3
+            },
+            {
+                "stage": 21,
+                "points": 3
+            }
+        ]
+    },
+    "Nils Eekhoff":
+    {
+        "team": "Team DSM",
+        "stages":
+        [
+            {
+                "stage": 2,
+                "points": 1
+            },
+            {
+                "stage": 16,
+                "points": 15
+            }
+        ]
+    },
+    "Alberto Dainese":
+    {
+        "team": "Team DSM",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 16
+            },
+            {
+                "stage": 4,
+                "points": 10
+            },
+            {
+                "stage": 5,
+                "points": 10
+            },
+            {
+                "stage": 13,
+                "points": 10
+            },
+            {
+                "stage": 19,
+                "points": 25
+            },
+            {
+                "stage": 21,
+                "points": 9
+            }
+        ]
+    },
+    "Simon Clarke":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 10
+            },
+            {
+                "stage": 5,
+                "points": 49
+            },
+            {
+                "stage": 10,
+                "points": 9
+            }
+        ]
+    },
+    "Reinardt Janse Van Rensburg":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 8
+            },
+            {
+                "stage": 14,
+                "points": 10
+            },
+            {
+                "stage": 21,
+                "points": 2
+            }
+        ]
+    },
+    "Marc Soler":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 7
+            },
+            {
+                "stage": 6,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 3
+            },
+            {
+                "stage": 14,
+                "points": 23
+            }
+        ]
+    },
+    "Mikkel Bjerg":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 6
+            },
+            {
+                "stage": 4,
+                "points": 10
+            },
+            {
+                "stage": 6,
+                "points": 7
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 4
+            },
+            {
+                "stage": 15,
+                "points": 2
+            },
+            {
+                "stage": 17,
+                "points": 5
+            },
+            {
+                "stage": 20,
+                "points": 8
+            }
+        ]
+    },
+    "Alexander Krieger":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 6
+            },
+            {
+                "stage": 4,
+                "points": 3
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 11
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Nick Schultz":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 10,
+                "points": 41
+            },
+            {
+                "stage": 14,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 22
+            },
+            {
+                "stage": 20,
+                "points": 5
+            }
+        ]
+    },
+    "Marco Haller":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 8
+            },
+            {
+                "stage": 18,
+                "points": 9
+            }
+        ]
+    },
+    "Luka Mezgec":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 12
+            }
+        ]
+    },
+    "Christopher Juul-Jensen":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 6
+            },
+            {
+                "stage": 14,
+                "points": 6
+            },
+            {
+                "stage": 15,
+                "points": 11
+            },
+            {
+                "stage": 19,
+                "points": 8
+            }
+        ]
+    },
+    "Jack Bauer":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 10,
+                "points": 13
+            },
+            {
+                "stage": 14,
+                "points": 5
+            }
+        ]
+    },
+    "Amund Grondahl Jansen":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 10
+            },
+            {
+                "stage": 14,
+                "points": 5
+            }
+        ]
+    },
+    "Luke Durbridge":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 11
+            }
+        ]
+    },
+    "Michael Matthews":
+    {
+        "team": "Team BikeExchange Jayco",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 5
+            },
+            {
+                "stage": 4,
+                "points": 12
+            },
+            {
+                "stage": 6,
+                "points": 30
+            },
+            {
+                "stage": 8,
+                "points": 30
+            },
+            {
+                "stage": 14,
+                "points": 67
+            },
+            {
+                "stage": 17,
+                "points": 13
+            }
+        ]
+    },
+    "Patrick Konrad":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 4
+            },
+            {
+                "stage": 5,
+                "points": 6
+            },
+            {
+                "stage": 9,
+                "points": 7
+            },
+            {
+                "stage": 11,
+                "points": 8
+            },
+            {
+                "stage": 14,
+                "points": 20
+            },
+            {
+                "stage": 17,
+                "points": 3
+            }
+        ]
+    },
+    "Aleksandr Vlasov":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 3
+            },
+            {
+                "stage": 5,
+                "points": 3
+            },
+            {
+                "stage": 6,
+                "points": 9
+            },
+            {
+                "stage": 8,
+                "points": 18
+            },
+            {
+                "stage": 11,
+                "points": 12
+            },
+            {
+                "stage": 12,
+                "points": 4
+            },
+            {
+                "stage": 13,
+                "points": 1
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 21
+            },
+            {
+                "stage": 17,
+                "points": 17
+            },
+            {
+                "stage": 18,
+                "points": 16
+            },
+            {
+                "stage": 19,
+                "points": 13
+            },
+            {
+                "stage": 20,
+                "points": 9
+            },
+            {
+                "stage": 21,
+                "points": 6
+            }
+        ]
+    },
+    "Vegard Stake Laengen":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 3
+            },
+            {
+                "stage": 6,
+                "points": 10
+            },
+            {
+                "stage": 7,
+                "points": 5
+            }
+        ]
+    },
+    "Nathan Van Hooydonck":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 3,
+                "points": 2
+            },
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 10
+            },
+            {
+                "stage": 11,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 12
+            },
+            {
+                "stage": 18,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 8
+            }
+        ]
+    },
+    "Anthony Perez":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 25
+            },
+            {
+                "stage": 12,
+                "points": 29
+            }
+        ]
+    },
+    "Geraint Thomas":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 11
+            },
+            {
+                "stage": 6,
+                "points": 11
+            },
+            {
+                "stage": 7,
+                "points": 28
+            },
+            {
+                "stage": 8,
+                "points": 18
+            },
+            {
+                "stage": 9,
+                "points": 24
+            },
+            {
+                "stage": 10,
+                "points": 7
+            },
+            {
+                "stage": 11,
+                "points": 29
+            },
+            {
+                "stage": 12,
+                "points": 29
+            },
+            {
+                "stage": 13,
+                "points": 8
+            },
+            {
+                "stage": 14,
+                "points": 8
+            },
+            {
+                "stage": 15,
+                "points": 8
+            },
+            {
+                "stage": 16,
+                "points": 12
+            },
+            {
+                "stage": 17,
+                "points": 32
+            },
+            {
+                "stage": 18,
+                "points": 30
+            },
+            {
+                "stage": 19,
+                "points": 15
+            },
+            {
+                "stage": 20,
+                "points": 30
+            },
+            {
+                "stage": 21,
+                "points": 8
+            }
+        ]
+    },
+    "Brent Van Moer":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 7
+            },
+            {
+                "stage": 11,
+                "points": 12
+            },
+            {
+                "stage": 13,
+                "points": 3
+            }
+        ]
+    },
+    "Alfred Wright":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 6
+            },
+            {
+                "stage": 8,
+                "points": 15
+            },
+            {
+                "stage": 10,
+                "points": 16
+            },
+            {
+                "stage": 13,
+                "points": 41
+            },
+            {
+                "stage": 15,
+                "points": 11
+            },
+            {
+                "stage": 19,
+                "points": 3
+            },
+            {
+                "stage": 20,
+                "points": 14
+            },
+            {
+                "stage": 21,
+                "points": 11
+            }
+        ]
+    },
+    "Steven Kruijswijk":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 12
+            },
+            {
+                "stage": 11,
+                "points": 17
+            },
+            {
+                "stage": 12,
+                "points": 6
+            }
+        ]
+    },
+    "Tiesj Benoot":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 1
+            },
+            {
+                "stage": 11,
+                "points": 15
+            },
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 18,
+                "points": 17
+            },
+            {
+                "stage": 19,
+                "points": 5
+            },
+            {
+                "stage": 20,
+                "points": 5
+            }
+        ]
+    },
+    "Sepp Kuss":
+    {
+        "team": "Jumbo-Visma",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 11
+            },
+            {
+                "stage": 8,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 2
+            },
+            {
+                "stage": 11,
+                "points": 7
+            },
+            {
+                "stage": 12,
+                "points": 12
+            },
+            {
+                "stage": 18,
+                "points": 19
+            },
+            {
+                "stage": 19,
+                "points": 5
+            },
+            {
+                "stage": 20,
+                "points": 5
+            }
+        ]
+    },
+    "Daniel Oss":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 5
+            }
+        ]
+    },
+    "Lawrence Naesen":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 5
+            }
+        ]
+    },
+    "Tim Wellens":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 4
+            },
+            {
+                "stage": 16,
+                "points": 8
+            }
+        ]
+    },
+    "Krists Neilands":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 4
+            },
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 14
+            },
+            {
+                "stage": 16,
+                "points": 5
+            }
+        ]
+    },
+    "Nils Politt":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 3
+            },
+            {
+                "stage": 6,
+                "points": 7
+            },
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 15,
+                "points": 26
+            },
+            {
+                "stage": 18,
+                "points": 13
+            },
+            {
+                "stage": 19,
+                "points": 14
+            },
+            {
+                "stage": 20,
+                "points": 9
+            }
+        ]
+    },
+    "Maciej Bodnar":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 2
+            }
+        ]
+    },
+    "Stefan Bissegger":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 4,
+                "points": 2
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 15
+            }
+        ]
+    },
+    "Taco van der Hoorn":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 45
+            },
+            {
+                "stage": 19,
+                "points": 13
+            }
+        ]
+    },
+    "Alexis Gougeard":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 12
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 9
+            },
+            {
+                "stage": 21,
+                "points": 10
+            }
+        ]
+    },
+    "Gianni Moscon":
+    {
+        "team": "Astana Qazaqstan Team",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 10
+            }
+        ]
+    },
+    "Maximillian Schachmann":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 8
+            },
+            {
+                "stage": 7,
+                "points": 7
+            },
+            {
+                "stage": 18,
+                "points": 4
+            },
+            {
+                "stage": 20,
+                "points": 12
+            }
+        ]
+    },
+    "Nairo Quintana":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 7
+            },
+            {
+                "stage": 6,
+                "points": 20
+            },
+            {
+                "stage": 7,
+                "points": 6
+            },
+            {
+                "stage": 8,
+                "points": 6
+            },
+            {
+                "stage": 9,
+                "points": 12
+            },
+            {
+                "stage": 11,
+                "points": 36
+            },
+            {
+                "stage": 12,
+                "points": 12
+            },
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 9
+            },
+            {
+                "stage": 17,
+                "points": 18
+            },
+            {
+                "stage": 18,
+                "points": 14
+            },
+            {
+                "stage": 19,
+                "points": 6
+            },
+            {
+                "stage": 20,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 11
+            }
+        ]
+    },
+    "Jakob Fuglsang":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 7
+            },
+            {
+                "stage": 6,
+                "points": 15
+            },
+            {
+                "stage": 14,
+                "points": 18
+            }
+        ]
+    },
+    "Michael Woods":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 4
+            },
+            {
+                "stage": 12,
+                "points": 3
+            },
+            {
+                "stage": 14,
+                "points": 4
+            },
+            {
+                "stage": 16,
+                "points": 39
+            }
+        ]
+    },
+    "Guy Niv":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 8
+            },
+            {
+                "stage": 16,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 4
+            }
+        ]
+    },
+    "Hugo Houle":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 9,
+                "points": 18
+            },
+            {
+                "stage": 13,
+                "points": 38
+            },
+            {
+                "stage": 15,
+                "points": 7
+            },
+            {
+                "stage": 16,
+                "points": 56
+            }
+        ]
+    },
+    "Guillaume Boivin":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 4
+            },
+            {
+                "stage": 16,
+                "points": 5
+            }
+        ]
+    },
+    "Christopher Froome":
+    {
+        "team": "Israel - Premier Tech",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 5
+            },
+            {
+                "stage": 12,
+                "points": 39
+            },
+            {
+                "stage": 16,
+                "points": 5
+            }
+        ]
+    },
+    "Owain Doull":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 3
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 4
+            }
+        ]
+    },
+    "Pierre Latour":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 5,
+                "points": 2
+            },
+            {
+                "stage": 6,
+                "points": 8
+            },
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 11,
+                "points": 39
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 1
+            }
+        ]
+    },
+    "Daniel Felipe Martinez":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 17
+            },
+            {
+                "stage": 7,
+                "points": 11
+            },
+            {
+                "stage": 8,
+                "points": 1
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 6
+            },
+            {
+                "stage": 18,
+                "points": 28
+            },
+            {
+                "stage": 21,
+                "points": 12
+            }
+        ]
+    },
+    "Quinn Simmons":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 17
+            },
+            {
+                "stage": 10,
+                "points": 11
+            },
+            {
+                "stage": 13,
+                "points": 18
+            },
+            {
+                "stage": 14,
+                "points": 4
+            },
+            {
+                "stage": 15,
+                "points": 7
+            },
+            {
+                "stage": 17,
+                "points": 2
+            },
+            {
+                "stage": 19,
+                "points": 26
+            }
+        ]
+    },
+    "Marc Hirschi":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 15
+            },
+            {
+                "stage": 7,
+                "points": 15
+            },
+            {
+                "stage": 17,
+                "points": 5
+            }
+        ]
+    },
+    "Romain Bardet":
+    {
+        "team": "Team DSM",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 13
+            },
+            {
+                "stage": 7,
+                "points": 19
+            },
+            {
+                "stage": 8,
+                "points": 6
+            },
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 10,
+                "points": 4
+            },
+            {
+                "stage": 11,
+                "points": 34
+            },
+            {
+                "stage": 12,
+                "points": 17
+            },
+            {
+                "stage": 13,
+                "points": 7
+            },
+            {
+                "stage": 14,
+                "points": 7
+            },
+            {
+                "stage": 15,
+                "points": 7
+            },
+            {
+                "stage": 16,
+                "points": 2
+            },
+            {
+                "stage": 17,
+                "points": 23
+            },
+            {
+                "stage": 18,
+                "points": 7
+            },
+            {
+                "stage": 19,
+                "points": 3
+            },
+            {
+                "stage": 20,
+                "points": 4
+            },
+            {
+                "stage": 21,
+                "points": 4
+            }
+        ]
+    },
+    "Enric Mas":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 10
+            },
+            {
+                "stage": 7,
+                "points": 18
+            },
+            {
+                "stage": 8,
+                "points": 7
+            },
+            {
+                "stage": 9,
+                "points": 15
+            },
+            {
+                "stage": 10,
+                "points": 2
+            },
+            {
+                "stage": 11,
+                "points": 7
+            },
+            {
+                "stage": 12,
+                "points": 16
+            },
+            {
+                "stage": 13,
+                "points": 2
+            },
+            {
+                "stage": 15,
+                "points": 1
+            },
+            {
+                "stage": 17,
+                "points": 10
+            },
+            {
+                "stage": 18,
+                "points": 3
+            }
+        ]
+    },
+    "Adrien Petit":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 8
+            }
+        ]
+    },
+    "Jonas Rutsch":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 6
+            },
+            {
+                "stage": 10,
+                "points": 5
+            }
+        ]
+    },
+    "Alexis Vuillermoz":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 6
+            }
+        ]
+    },
+    "Rafal Majka":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 6
+            },
+            {
+                "stage": 9,
+                "points": 4
+            },
+            {
+                "stage": 11,
+                "points": 8
+            },
+            {
+                "stage": 15,
+                "points": 4
+            },
+            {
+                "stage": 17,
+                "points": 5
+            }
+        ]
+    },
+    "George Bennett":
+    {
+        "team": "UAE-Team Emirates",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 5
+            },
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 8,
+                "points": 2
+            },
+            {
+                "stage": 9,
+                "points": 1
+            }
+        ]
+    },
+    "Guillaume Van Keirsbulck":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 4
+            },
+            {
+                "stage": 13,
+                "points": 4
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 7
+            },
+            {
+                "stage": 21,
+                "points": 10
+            }
+        ]
+    },
+    "Alexey Lutsenko":
+    {
+        "team": "Astana Qazaqstan Team",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 4
+            },
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 16
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 35
+            },
+            {
+                "stage": 18,
+                "points": 24
+            },
+            {
+                "stage": 19,
+                "points": 2
+            },
+            {
+                "stage": 21,
+                "points": 6
+            }
+        ]
+    },
+    "Rigoberto Uran":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 3
+            },
+            {
+                "stage": 7,
+                "points": 9
+            },
+            {
+                "stage": 9,
+                "points": 1
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 16
+            },
+            {
+                "stage": 18,
+                "points": 1
+            }
+        ]
+    },
+    "Guillaume Martin":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 6,
+                "points": 2
+            },
+            {
+                "stage": 7,
+                "points": 8
+            },
+            {
+                "stage": 8,
+                "points": 8
+            }
+        ]
+    },
+    "Lennard Kamna":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 32
+            },
+            {
+                "stage": 10,
+                "points": 30
+            },
+            {
+                "stage": 14,
+                "points": 17
+            }
+        ]
+    },
+    "Simon Geschke":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 28
+            },
+            {
+                "stage": 9,
+                "points": 30
+            },
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 31
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 14,
+                "points": 24
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 31
+            },
+            {
+                "stage": 17,
+                "points": 20
+            },
+            {
+                "stage": 18,
+                "points": 4
+            },
+            {
+                "stage": 19,
+                "points": 4
+            },
+            {
+                "stage": 20,
+                "points": 4
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Cyril Barthe":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 13
+            }
+        ]
+    },
+    "Imanol Erviti":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 12
+            }
+        ]
+    },
+    "Giulio Ciccone":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 10
+            },
+            {
+                "stage": 12,
+                "points": 40
+            },
+            {
+                "stage": 13,
+                "points": 7
+            },
+            {
+                "stage": 15,
+                "points": 2
+            },
+            {
+                "stage": 16,
+                "points": 1
+            },
+            {
+                "stage": 17,
+                "points": 15
+            },
+            {
+                "stage": 18,
+                "points": 26
+            },
+            {
+                "stage": 19,
+                "points": 3
+            },
+            {
+                "stage": 20,
+                "points": 3
+            },
+            {
+                "stage": 21,
+                "points": 3
+            }
+        ]
+    },
+    "Louis Meintjes":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 5
+            },
+            {
+                "stage": 12,
+                "points": 55
+            },
+            {
+                "stage": 13,
+                "points": 4
+            },
+            {
+                "stage": 14,
+                "points": 26
+            },
+            {
+                "stage": 15,
+                "points": 8
+            },
+            {
+                "stage": 16,
+                "points": 8
+            },
+            {
+                "stage": 17,
+                "points": 17
+            },
+            {
+                "stage": 18,
+                "points": 15
+            },
+            {
+                "stage": 19,
+                "points": 5
+            },
+            {
+                "stage": 20,
+                "points": 3
+            },
+            {
+                "stage": 21,
+                "points": 3
+            }
+        ]
+    },
+    "Damiano Caruso":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 4
+            },
+            {
+                "stage": 8,
+                "points": 2
+            },
+            {
+                "stage": 9,
+                "points": 10
+            },
+            {
+                "stage": 16,
+                "points": 13
+            }
+        ]
+    },
+    "Aurélien Paret-Peintre":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 3
+            },
+            {
+                "stage": 9,
+                "points": 5
+            }
+        ]
+    },
+    "Andreas Leknessund":
+    {
+        "team": "Team DSM",
+        "stages":
+        [
+            {
+                "stage": 7,
+                "points": 2
+            },
+            {
+                "stage": 8,
+                "points": 2
+            },
+            {
+                "stage": 10,
+                "points": 15
+            },
+            {
+                "stage": 14,
+                "points": 1
+            },
+            {
+                "stage": 15,
+                "points": 1
+            },
+            {
+                "stage": 17,
+                "points": 1
+            },
+            {
+                "stage": 19,
+                "points": 1
+            },
+            {
+                "stage": 20,
+                "points": 3
+            }
+        ]
+    },
+    "Andreas Kron":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 8,
+                "points": 22
+            },
+            {
+                "stage": 14,
+                "points": 18
+            },
+            {
+                "stage": 18,
+                "points": 10
+            },
+            {
+                "stage": 21,
+                "points": 17
+            }
+        ]
+    },
+    "Alberto Bettiol":
+    {
+        "team": "EF Education-EasyPost",
+        "stages":
+        [
+            {
+                "stage": 8,
+                "points": 20
+            },
+            {
+                "stage": 10,
+                "points": 33
+            },
+            {
+                "stage": 14,
+                "points": 33
+            },
+            {
+                "stage": 17,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 10
+            },
+            {
+                "stage": 20,
+                "points": 7
+            },
+            {
+                "stage": 21,
+                "points": 3
+            }
+        ]
+    },
+    "Benjamin Thomas":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 8,
+                "points": 16
+            },
+            {
+                "stage": 10,
+                "points": 26
+            },
+            {
+                "stage": 13,
+                "points": 10
+            },
+            {
+                "stage": 15,
+                "points": 2
+            },
+            {
+                "stage": 17,
+                "points": 3
+            },
+            {
+                "stage": 18,
+                "points": 7
+            }
+        ]
+    },
+    "Matteo Jorgenson":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 8,
+                "points": 1
+            },
+            {
+                "stage": 9,
+                "points": 2
+            },
+            {
+                "stage": 10,
+                "points": 37
+            },
+            {
+                "stage": 11,
+                "points": 2
+            },
+            {
+                "stage": 12,
+                "points": 10
+            },
+            {
+                "stage": 13,
+                "points": 31
+            },
+            {
+                "stage": 14,
+                "points": 2
+            },
+            {
+                "stage": 15,
+                "points": 2
+            },
+            {
+                "stage": 16,
+                "points": 35
+            },
+            {
+                "stage": 17,
+                "points": 2
+            },
+            {
+                "stage": 18,
+                "points": 2
+            },
+            {
+                "stage": 19,
+                "points": 2
+            },
+            {
+                "stage": 21,
+                "points": 2
+            }
+        ]
+    },
+    "Thibaut Pinot":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 51
+            },
+            {
+                "stage": 10,
+                "points": 3
+            },
+            {
+                "stage": 12,
+                "points": 3
+            },
+            {
+                "stage": 14,
+                "points": 35
+            },
+            {
+                "stage": 17,
+                "points": 15
+            },
+            {
+                "stage": 18,
+                "points": 29
+            }
+        ]
+    },
+    "Jonathan Castroviejo":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 35
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 2
+            }
+        ]
+    },
+    "Carlos Verona":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 32
+            },
+            {
+                "stage": 18,
+                "points": 13
+            }
+        ]
+    },
+    "Benoit Cosnefroy":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 14
+            },
+            {
+                "stage": 11,
+                "points": 2
+            },
+            {
+                "stage": 14,
+                "points": 5
+            }
+        ]
+    },
+    "Luis Leon Sanchez":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 13
+            },
+            {
+                "stage": 10,
+                "points": 37
+            },
+            {
+                "stage": 14,
+                "points": 21
+            },
+            {
+                "stage": 17,
+                "points": 5
+            }
+        ]
+    },
+    "Silvan Dillier":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Stan Dewulf":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 13
+            },
+            {
+                "stage": 15,
+                "points": 4
+            },
+            {
+                "stage": 18,
+                "points": 11
+            },
+            {
+                "stage": 21,
+                "points": 11
+            }
+        ]
+    },
+    "Mikael Cherel":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 4
+            }
+        ]
+    },
+    "Ben O'Connor":
+    {
+        "team": "AG2R Citroën Team",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 5
+            }
+        ]
+    },
+    "Kobe Goossens":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 5
+            },
+            {
+                "stage": 12,
+                "points": 19
+            }
+        ]
+    },
+    "Ion Izagirre":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 4
+            },
+            {
+                "stage": 10,
+                "points": 6
+            }
+        ]
+    },
+    "Joseph Dombrowski":
+    {
+        "team": "Astana Qazaqstan Team",
+        "stages":
+        [
+            {
+                "stage": 9,
+                "points": 3
+            }
+        ]
+    },
+    "Dylan Van Baarle":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 24
+            },
+            {
+                "stage": 12,
+                "points": 5
+            },
+            {
+                "stage": 17,
+                "points": 4
+            },
+            {
+                "stage": 18,
+                "points": 3
+            },
+            {
+                "stage": 20,
+                "points": 6
+            }
+        ]
+    },
+    "Georg Zimmermann":
+    {
+        "team": "Intermarché - Wanty - Gobert Matériaux",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 18
+            },
+            {
+                "stage": 17,
+                "points": 2
+            }
+        ]
+    },
+    "Simone Velasco":
+    {
+        "team": "Astana Qazaqstan Team",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 9
+            },
+            {
+                "stage": 15,
+                "points": 2
+            },
+            {
+                "stage": 19,
+                "points": 2
+            }
+        ]
+    },
+    "Connor Swift":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 7
+            }
+        ]
+    },
+    "Kristian Sbaragli":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 5
+            },
+            {
+                "stage": 11,
+                "points": 9
+            },
+            {
+                "stage": 15,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Pierre Rolland":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 10,
+                "points": 5
+            }
+        ]
+    },
+    "Warren Barguil":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 11,
+                "points": 48
+            }
+        ]
+    },
+    "Valentin Madouas":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 11,
+                "points": 7
+            },
+            {
+                "stage": 16,
+                "points": 34
+            },
+            {
+                "stage": 17,
+                "points": 8
+            },
+            {
+                "stage": 18,
+                "points": 15
+            }
+        ]
+    },
+    "Gorka Izagirre":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 11,
+                "points": 5
+            },
+            {
+                "stage": 16,
+                "points": 2
+            },
+            {
+                "stage": 17,
+                "points": 7
+            }
+        ]
+    },
+    "Pierre-Luc Perichon":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 11,
+                "points": 4
+            }
+        ]
+    },
+    "Cyril Lemoine":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 11,
+                "points": 3
+            }
+        ]
+    },
+    "Nelson Oliveira":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 12,
+                "points": 20
+            }
+        ]
+    },
+    "Sebastian Schonberger":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 12,
+                "points": 17
+            }
+        ]
+    },
+    "Matis Louvel":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 12,
+                "points": 14
+            }
+        ]
+    },
+    "Victor Lafay":
+    {
+        "team": "Cofidis",
+        "stages":
+        [
+            {
+                "stage": 12,
+                "points": 10
+            }
+        ]
+    },
+    "Luke Rowe":
+    {
+        "team": "INEOS Grenadiers",
+        "stages":
+        [
+            {
+                "stage": 12,
+                "points": 5
+            }
+        ]
+    },
+    "Edward Planckaert":
+    {
+        "team": "Alpecin-Fenix",
+        "stages":
+        [
+            {
+                "stage": 13,
+                "points": 6
+            },
+            {
+                "stage": 15,
+                "points": 13
+            },
+            {
+                "stage": 17,
+                "points": 6
+            },
+            {
+                "stage": 21,
+                "points": 5
+            }
+        ]
+    },
+    "Amaury Capiot":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 13,
+                "points": 6
+            },
+            {
+                "stage": 18,
+                "points": 12
+            },
+            {
+                "stage": 19,
+                "points": 18
+            }
+        ]
+    },
+    "Philippe Gilbert":
+    {
+        "team": "Lotto Soudal",
+        "stages":
+        [
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 1
+            },
+            {
+                "stage": 16,
+                "points": 13
+            },
+            {
+                "stage": 19,
+                "points": 5
+            },
+            {
+                "stage": 21,
+                "points": 9
+            }
+        ]
+    },
+    "Toms Skujins":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 13,
+                "points": 5
+            }
+        ]
+    },
+    "Tony  Gallopin":
+    {
+        "team": "Trek - Segafredo",
+        "stages":
+        [
+            {
+                "stage": 13,
+                "points": 5
+            },
+            {
+                "stage": 15,
+                "points": 9
+            },
+            {
+                "stage": 16,
+                "points": 9
+            }
+        ]
+    },
+    "Felix Grosschartner":
+    {
+        "team": "Bora - Hansgrohe",
+        "stages":
+        [
+            {
+                "stage": 14,
+                "points": 29
+            }
+        ]
+    },
+    "Gregor Muhlberger":
+    {
+        "team": "Movistar",
+        "stages":
+        [
+            {
+                "stage": 14,
+                "points": 7
+            },
+            {
+                "stage": 17,
+                "points": 10
+            },
+            {
+                "stage": 18,
+                "points": 3
+            }
+        ]
+    },
+    "Franck Bonnamour":
+    {
+        "team": "B&B Hotels - KTM",
+        "stages":
+        [
+            {
+                "stage": 14,
+                "points": 6
+            },
+            {
+                "stage": 18,
+                "points": 5
+            },
+            {
+                "stage": 19,
+                "points": 10
+            },
+            {
+                "stage": 20,
+                "points": 10
+            }
+        ]
+    },
+    "Michael Storer":
+    {
+        "team": "Groupama - FDJ",
+        "stages":
+        [
+            {
+                "stage": 16,
+                "points": 31
+            },
+            {
+                "stage": 19,
+                "points": 2
+            }
+        ]
+    },
+    "Mathieu Burgaudeau":
+    {
+        "team": "Team TotalEnergies",
+        "stages":
+        [
+            {
+                "stage": 16,
+                "points": 17
+            },
+            {
+                "stage": 19,
+                "points": 4
+            },
+            {
+                "stage": 21,
+                "points": 13
+            }
+        ]
+    },
+    "Maxime Bouet":
+    {
+        "team": "Team Arkéa Samsic",
+        "stages":
+        [
+            {
+                "stage": 16,
+                "points": 11
+            }
+        ]
+    },
+    "Chris Hamilton":
+    {
+        "team": "Team DSM",
+        "stages":
+        [
+            {
+                "stage": 17,
+                "points": 1
+            },
+            {
+                "stage": 19,
+                "points": 6
+            },
+            {
+                "stage": 21,
+                "points": 8
+            }
+        ]
+    },
+    "Matej Mohoric":
+    {
+        "team": "Bahrain - Victorious",
+        "stages":
+        [
+            {
+                "stage": 18,
+                "points": 14
+            },
+            {
+                "stage": 19,
+                "points": 12
+            }
+        ]
+    },
+    "Andrey Zeits":
+    {
+        "team": "Astana Qazaqstan Team",
+        "stages":
+        [
+            {
+                "stage": 21,
+                "points": 3
+            }
+        ]
+    }
+}
