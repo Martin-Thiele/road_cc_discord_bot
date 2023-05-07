@@ -20,7 +20,7 @@ load_dotenv()
 #####################################
 
 params = {
-    'ldtid': '7',
+    'ldtid': '6',
     'lid': '2142',
 }
 competition_name = "Giro d'Italia"
@@ -215,7 +215,6 @@ async def get_riders():
         for r in rows[1:]:
             rid = r.td.a.attrs['href'][len("javascript:showrider('"):-2]
             rider = await get_rider(rid, s)
-            print(rider[0])
             d[rider[0]] = {
                 'team': rider[1],
                 'nationality': rider[2],
@@ -286,7 +285,6 @@ async def get_ordered_rankings(standard = True):
 
 async def get_stage_page(s, url):
     page = s.get(url, params=params)
-
     soup = BeautifulSoup(page.content, "html.parser")
     soup.prettify()
     t = soup.find('table', {"class": "leagues"})
@@ -310,7 +308,7 @@ async def sum_stages():
     soup.prettify()
     rows = soup.find_all('tr')
     d = get_from_template()
-    for i in range (1, len(rows)):
+    for i in range (1, get_current_stage()):
         r = rows[i] # skip header row
         url = base_url + "/stages" + r.find("a").attrs["href"]
         lst = await get_stage_page(s, url)
@@ -382,7 +380,7 @@ async def get_deadline(stage=None):
         s = await set_context(s, True)
         page = s.get(deadline_url)
         soup = BeautifulSoup(page.content, "html.parser")
-        script = soup.find_all('script')[11]
+        script = soup.find_all('script')[10]
         p = re.search('var nextStageTime = \d+', script.text)
         return (datetime.utcfromtimestamp(int(p.group()[20:])) + dt.timedelta(hours=2))
     except Exception as e:
@@ -670,7 +668,7 @@ async def vrider(ctx):
                 if not ((greaterThan and ppptotal <= amount) or (lessThan and ppptotal >= amount)):
                     lst.append((k, total, ppptotal))
 
-            lst.sort(key=lambda x: x[1], reverse=True)
+            lst.sort(key=lambda x: x[2], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(round(x[2], 2))} ({x[1]})", lst))
             chunks = [ret[x:x+80] for x in range(0, len(ret), 80)]
             nl = '\n'
@@ -789,6 +787,7 @@ async def forcefix(ctx):
     set_fetched_status(False, int(new_highscore), await get_deadline())
     await ctx.send("Tried to fix points")
 
+
 @tasks.loop(minutes=10)
 async def job():
     try:
@@ -809,8 +808,8 @@ async def job():
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
             stage = get_current_stage() + 1
-            await channel.send(f":warning: Husk at sÃ¦tte hold! :warning: Det er {stage}. etape.{f' Deadline er {deadline.hour}:{deadline.minute}' if deadline != None else ''}")
-            await channel.send("FÃ¸lgende er nÃ¦ste etape!")
+            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {deadline.hour}:{deadline.minute}' if deadline != None else ''}")
+            await channel.send("Following is next stage!")
             await channel.send(get_profile(None, stage))
 
         # don't do anything on days without a race
@@ -867,7 +866,7 @@ async def job():
                 await channel.send(res)
 
         # reset to track for new scores
-        if(now.hour < 1 and not look_for_scores):
+        if(now.hour < 3 and not look_for_scores):
             set_fetched_status(False, lasthighscore, deadline)
     except Exception as e:
         print(e)
@@ -876,8 +875,8 @@ print("bot started")
 job.start()
 client.run(os.getenv('DISCORD_KEY'))
 
-# async def main():
-#     await get_riders()
+#async def main():
+    # await get_riders()
 
 # if __name__ ==  '__main__':
 #     loop = asyncio.get_event_loop()
