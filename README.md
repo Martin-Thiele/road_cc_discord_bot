@@ -41,9 +41,20 @@ Stage 16: 12
 Total: 349 (0)
 ```
 </details>
-<details> <summary>?vrider (todo since it's new with giro 2023)</summary>
+<details> <summary>?vrider > 1</summary>
 
-Todo - Shows `total points / cost of rider`
+```python
+Filippo Ganna: 2.43 (43)
+Will Barta: 2.0 (6)
+Alessandro Iacchi: 1.96 (10)
+Tao Geoghegan-Hart: 1.96 (37)
+Stefan Kung: 1.63 (27)
+Joao Almeida: 1.55 (44)
+Remco Evenepoel: 1.49 (55)
+Brandon McNulty: 1.45 (28)
+Bruno Armirail: 1.35 (10)
+Ivan Van Wilder: 1.14 (12)
+```
 </details>
 <details>
     <summary>?pteam tdf22</summary>
@@ -144,12 +155,14 @@ Todays points - total points
 </details>
 <details>
     <summary>?track 501492</summary>
+
 ```python
 Added 501492 to players to track.
 ```
 </details>
 <details>
     <summary>?untrack 501492</summary>
+
 ```python
 Removed 501492 from players to track.
 ```
