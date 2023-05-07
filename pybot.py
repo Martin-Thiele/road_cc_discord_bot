@@ -808,8 +808,9 @@ async def job():
             now >= startday - dt.timedelta(days=1) and now < endday and
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
+            dl = get_deadline() if deadline == None else deadline 
             stage = get_current_stage() + 1
-            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {deadline.hour}:{deadline.minute}' if deadline != None else ''}")
+            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {dl.hour}:{dl.minute}' if dl != None else ''}")
             await channel.send("Following is next stage!")
             await channel.send(get_profile(None, stage))
 
@@ -844,8 +845,6 @@ async def job():
                 
                 # update the rider rankings
                 scores = await sum_stages()
-                rankings = await get_ordered_rankings(False)
-                new_deadline = await get_deadline()
                 
                 msg = get_stage_points(None, scores)
                 await channel.send("**POINTS!**")
@@ -853,14 +852,16 @@ async def job():
                 res = '**STANDARD**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
                 
                 
+                rankingsp = await get_ordered_rankings(False)
                 # check for scores in purist
-                if rankings == None:
+                if rankingsp == None:
                     await channel.send(f"bot couldn't login")
                     return
 
-                res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
+                res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankingsp)))
 
                 # no longer look for new scores
+                new_deadline = await get_deadline()
                 set_fetched_status(True, int(new_highscore), new_deadline)
 
                 # send message to discord
