@@ -790,8 +790,9 @@ async def forcefix(ctx):
 
 @tasks.loop(minutes=10)
 async def job():
+    channel = None
     try:
-        channel = client.get_channel(channelId)
+        channel = client.get_channel(int(channelId))
         if channel == None:
             return
 
@@ -869,6 +870,8 @@ async def job():
         if(now.hour < 3 and not look_for_scores):
             set_fetched_status(False, lasthighscore, deadline)
     except Exception as e:
+        if channel:
+            channel.send(f"Error: {str(e)}")
         print(e)
 
 print("bot started")
