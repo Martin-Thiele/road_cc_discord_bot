@@ -308,7 +308,7 @@ async def sum_stages():
     soup.prettify()
     rows = soup.find_all('tr')
     d = get_from_template()
-    for i in range (1, get_current_stage()):
+    for i in range (1, get_current_stage()+1):
         r = rows[i] # skip header row
         url = base_url + "/stages" + r.find("a").attrs["href"]
         lst = await get_stage_page(s, url)
@@ -820,7 +820,7 @@ async def job():
 
 
         # wait for deadline to find peoples transfers
-        if deadline != None and now.day == deadline.day and now.hour >= deadline.hour and now.minute > deadline.minute:
+        if deadline != None and now > deadline+dt.timedelta(minutes=2): # offset to ensure minor time differences
             s = await login()
             d = await get_transfers(s)
             for k,v in d.items():
