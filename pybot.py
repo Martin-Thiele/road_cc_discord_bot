@@ -623,8 +623,8 @@ async def prider(ctx):
             if 'nationality' in result:
                 name_line += f", {result['nationality']}"
             if 'birthday' in result:
-                parsed = datetime.strptime(result["birthday"], "%d/%m/%Y")
-                age = relativedelta(datetime.utcnow(), parsed).years
+                parsed = datetime.strptime(result["birthday"], "%d/%m/%Y") if result["birthday"] != None else "Unknown"
+                age = relativedelta(datetime.utcnow(), parsed).years if result["birthday"] != None else "Unknown"
                 name_line += f", age: {age}"
             if 'value' in result:
                 name_line += f", value: {result['value']}"
@@ -879,8 +879,8 @@ print("bot started")
 job.start()
 client.run(os.getenv('DISCORD_KEY'))
 
-#async def main():
-    # await get_riders()
+# async def main():
+#     await get_riders()
 
 # if __name__ ==  '__main__':
 #     loop = asyncio.get_event_loop()
