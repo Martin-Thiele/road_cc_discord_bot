@@ -809,7 +809,7 @@ async def job():
 
         # Daily reminder
         if(
-            now.hour > 21 and not warned and 
+            now.hour >= 21 and not warned and 
             now >= startday - dt.timedelta(days=1) and now < endday and
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
