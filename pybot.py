@@ -116,13 +116,14 @@ class FantasyRow():
             self.increment += " - "
         return f"{icon}{self.increment}**{self.playername}** - _{self.daily_score}_ - **_{self.score}_**"
 
-def set_fetched_status(status, newscore, deadline):
+def set_fetched_status(status, newscore, deadline, warned):
     try:
         data = {
             "date": dt.date.today().strftime("%d%m%Y"),
             "found": status,
             "previoushigh": newscore,
-            "deadline": deadline.strftime("%d%m%Y,%H:%M") if deadline != None else None
+            "deadline": deadline.strftime("%d%m%Y,%H:%M") if deadline != None else None,
+            "warned": warned
         }
         with open(status_json, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file)
@@ -174,7 +175,7 @@ def get_fetched_status():
 
         # if we found the date we return its status
         if(tday == day and tmonth == month and tyear == year):
-            return (data["found"], lastscore, deadline)
+            return (data["found"], lastscore, deadline, data["warned"])
 
         # otherwise assume it wasn't set
         return (False, lastscore, deadline)
@@ -278,7 +279,6 @@ async def get_ordered_rankings(standard = True):
             soup = BeautifulSoup(subpage.content, "html.parser")
             soup.prettify()
             daily_score = soup.find('table').find_all("th")[-1].text
-
             row = FantasyRow(pos, teamname, playername, daily_score, score, did_increase, increment)
             players.append(row)
     return players
@@ -288,6 +288,8 @@ async def get_stage_page(s, url):
     soup = BeautifulSoup(page.content, "html.parser")
     soup.prettify()
     t = soup.find('table', {"class": "leagues"})
+    if t == None:
+        return []
     rows = t.find_all('tr')
     ret = []
     for row in rows[1:]:
@@ -596,7 +598,7 @@ async def prider(ctx):
 
             lst.sort(key=lambda x: x[1], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(x[1])} ({x[2]})", lst))
-            chunks = [ret[x:x+80] for x in range(0, len(ret), 80)]
+            chunks = [ret[x:x+60] for x in range(0, len(ret), 60)]
             nl = '\n'
             if(len(ret) == 0):
                 await ctx.send("No rider fits the description")
@@ -633,7 +635,7 @@ async def prider(ctx):
             await ctx.send(f"```{discord_format}\n{name_line}\n{nl.join(list(map(lambda x: 'Stage ' + str(x['stage']) + ': ' + str(x['points']), result['stages'])))}\nTotal: {total} ({'0' if ppptotal == None else ppptotal})```")
     except Exception as e:
         print(e)
-        await ctx.send(f"'{rider}' could not be found.")
+        await ctx.send(f"prider error: {str(e)}")
 
 @client.command()
 async def vrider(ctx):
@@ -670,7 +672,7 @@ async def vrider(ctx):
 
             lst.sort(key=lambda x: x[2], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(round(x[2], 2))} ({x[1]})", lst))
-            chunks = [ret[x:x+80] for x in range(0, len(ret), 80)]
+            chunks = [ret[x:x+60] for x in range(0, len(ret), 60)]
             nl = '\n'
             if(len(ret) == 0):
                 await ctx.send("No rider fits the description")
@@ -780,12 +782,15 @@ async def pstage(ctx):
 
 @client.command()
 async def forcefix(ctx):
-    await ctx.send("...")
-    rankings = await get_ordered_rankings(True)
-    await sum_stages()
-    new_highscore = rankings[0].score
-    set_fetched_status(False, int(new_highscore), await get_deadline())
-    await ctx.send("Tried to fix points")
+    try:
+        await ctx.send("...")
+        rankings = await get_ordered_rankings(True)
+        await sum_stages()
+        new_highscore = rankings[0].score
+        set_fetched_status(False, int(new_highscore), await get_deadline(), False)
+        await ctx.send("Tried to fix points")
+    except Exception as e:
+        await ctx.send(f"error in forcefix: {str(e)}")
 
 
 @tasks.loop(minutes=10)
@@ -799,12 +804,12 @@ async def job():
         now = get_current_time()
         tomorrow = now + dt.timedelta(days=1)
 
-        (dont_look, lasthighscore, deadline) = get_fetched_status()
+        (dont_look, lasthighscore, deadline, warned) = get_fetched_status()
         look_for_scores = not dont_look
 
         # Daily reminder
         if(
-            now.hour == 21 and now.minute >= 50 and 
+            now.hour == 21 and not warned and 
             now >= startday - dt.timedelta(days=1) and now < endday and
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
@@ -818,7 +823,6 @@ async def job():
         if(now < startday or now > endday or len(list(filter(lambda d: d.day == now.day and d.month == now.month and d.year == now.year, restdays))) > 0):
             return
 
-
         # wait for deadline to find peoples transfers
         if deadline != None and now > deadline+dt.timedelta(minutes=2): # offset to ensure minor time differences
             s = await login()
@@ -827,11 +831,11 @@ async def job():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
                 await channel.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out}```")
 
-            set_fetched_status(dont_look, lasthighscore, None)
+            set_fetched_status(dont_look, lasthighscore, None, warned)
 
 
-        # look for new scores if its between 17 and 24 and we haven't found any new scores yet
-        if(now.hour >= 17 and now.hour <= 23 and look_for_scores):
+        # look for new scores if its between 17 and 3 and we haven't found any new scores yet
+        if((now.hour >= 17 or now.hour < 6) and look_for_scores):
             # check for scores in standard
             rankings = await get_ordered_rankings(True)
             
@@ -862,17 +866,17 @@ async def job():
 
                 # no longer look for new scores
                 new_deadline = await get_deadline()
-                set_fetched_status(True, int(new_highscore), new_deadline)
+                set_fetched_status(True, int(new_highscore), new_deadline, warned)
 
                 # send message to discord
                 await channel.send(res)
 
         # reset to track for new scores
-        if(now.hour < 3 and not look_for_scores):
-            set_fetched_status(False, lasthighscore, deadline)
+        if(now.hour == 6):
+            set_fetched_status(False, lasthighscore, deadline, False)
     except Exception as e:
         if channel:
-            channel.send(f"Error: {str(e)}")
+            channel.send(f"Error in loop: {str(e)}")
         print(e)
 
 print("bot started")
@@ -880,7 +884,13 @@ job.start()
 client.run(os.getenv('DISCORD_KEY'))
 
 # async def main():
-#     await get_riders()
+#     now = get_current_time()
+#     tomorrow = now + dt.timedelta(days=1)
+#     print(now.hour == 23 and now.minute >= 50 and 
+#     now >= startday - dt.timedelta(days=1) and now < endday and
+#     len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0)
+
+
 
 # if __name__ ==  '__main__':
 #     loop = asyncio.get_event_loop()
