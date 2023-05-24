@@ -511,7 +511,7 @@ async def transfers(ctx):
                 await ctx.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
     except Exception as e:
         print(e)
-        await ctx.send(e)
+        await ctx.send(f'error in transfers: {str(e)}')
 
 @client.command()
 async def rank(ctx):
@@ -760,25 +760,29 @@ async def pteam(ctx):
             await ctx.send(f"```{discord_format}\n{name}\n{nl.join(ret)}```")
     except Exception as e:
         print(e)
-        await ctx.send(e)
+        await ctx.send(f'pteam error: {str(e)}')
 
 @client.command()
 async def pstage(ctx):
-    msg = ctx.message.content[7:].strip()
-    splmsg = msg.split(' ')
-    mbytour = splmsg[0]
-    scores = {}
-    stage = None
+    try:
+        msg = ctx.message.content[7:].strip()
+        splmsg = msg.split(' ')
+        mbytour = splmsg[0]
+        scores = {}
+        stage = None
 
-    _, scores_json, old = get_tournament(mbytour)
-    if(old):
-        stage = int(splmsg[1]) if len(splmsg) > 1 else None
-    else:
-        stage = int(msg) if len(msg) > 0 else None
-    scores = get_rider_scores(scores_json)
-    
+        _, scores_json, old = get_tournament(mbytour)
+        if(old):
+            stage = int(splmsg[1]) if len(splmsg) > 1 else None
+        else:
+            stage = int(msg) if len(msg) > 0 else None
+        scores = get_rider_scores(scores_json)
+        
 
-    await ctx.send(get_stage_points(stage, scores))
+        await ctx.send(get_stage_points(stage, scores))
+    except Exception as e:
+        print(e)
+        await ctx.send(f'pstage error: {str(e)}')
 
 @client.command()
 async def forcefix(ctx):
