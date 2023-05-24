@@ -178,7 +178,7 @@ def get_fetched_status():
             return (data["found"], lastscore, deadline, data["warned"])
 
         # otherwise assume it wasn't set
-        return (False, lastscore, deadline)
+        return (False, lastscore, deadline, False)
     except Exception as e:
         print("Error in get fetched status", e)
         return (False, lastscore, deadline)
@@ -813,7 +813,7 @@ async def job():
             now >= startday - dt.timedelta(days=1) and now < endday and
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
-            dl = get_deadline() if deadline == None else deadline 
+            dl = await get_deadline() if deadline == None else deadline 
             stage = get_current_stage() + 1
             await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {dl.hour}:{dl.minute}' if dl != None else ''}")
             await channel.send("Following is next stage!")
@@ -834,7 +834,7 @@ async def job():
             set_fetched_status(dont_look, lasthighscore, None, warned)
 
 
-        # look for new scores if its between 17 and 3 and we haven't found any new scores yet
+        # look for new scores if its between 17 and 6 and we haven't found any new scores yet
         if((now.hour >= 17 or now.hour < 6) and look_for_scores):
             # check for scores in standard
             rankings = await get_ordered_rankings(True)
@@ -849,7 +849,6 @@ async def job():
                 
                 # update the rider rankings
                 scores = await sum_stages()
-                
                 msg = get_stage_points(None, scores)
                 await channel.send("**POINTS!**")
                 await channel.send(msg)
