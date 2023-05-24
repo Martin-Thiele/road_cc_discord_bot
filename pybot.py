@@ -815,9 +815,12 @@ async def job():
         ):
             dl = await get_deadline() if deadline == None else deadline 
             stage = get_current_stage() + 1
-            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {dl.hour}:{dl.minute}' if dl != None else ''}")
+            hour = "" if dl == None else "0"+dl.hour if dl.minute < 10 else dl.hour
+            minute = "" if dl == None else "0"+dl.minute if dl.minute < 10 else dl.minute
+            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
             await channel.send("Following is next stage!")
             await channel.send(get_profile(None, stage))
+            set_fetched_status(dont_look, lasthighscore, dl, True)
 
         # don't do anything on days without a race
         if(now < startday or now > endday or len(list(filter(lambda d: d.day == now.day and d.month == now.month and d.year == now.year, restdays))) > 0):
