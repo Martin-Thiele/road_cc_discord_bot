@@ -827,7 +827,7 @@ async def holdet(ctx):
         d = HoldetDKService.get_rider_values(holdet_tournament_id, holdet_game_id, get_current_stage())
         data = [{
             'name': k, 
-            'value': v['value'], 
+            'value': v['value'] / 1000000, 
             'growth': v['growth'],
             'totalgrowth': v['totalGrowth'],
             'popularity': v['popularity'] * 100,
@@ -841,7 +841,7 @@ async def holdet(ctx):
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
 
-        output_data = list(map(lambda r: f'{r["name"]} - {r["value"]} - {r["growth"]} - {r["totalgrowth"]} - {r["popularity"]}% - {r["trend"]}', data))
+        output_data = list(map(lambda r: f'{r["name"]} - {str(r["value"]):.0f} - {r["growth"]} - {r["totalgrowth"]} - {str(r["popularity"]):.2f }% - {r["trend"]}', data))
         if(len(output_data) == 0):
             await ctx.send("No riders found")
         else:
