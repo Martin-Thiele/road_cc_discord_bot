@@ -13,6 +13,8 @@ import os
 import asyncio
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
+from HoldetDKService import HoldetDKService
+from LeTourService import LeTourService
 
 load_dotenv()
 #####################################
@@ -23,16 +25,19 @@ params = {
     'ldtid': '6',
     'lid': '2142',
 }
-competition_name = "Giro d'Italia"
-puristId = 455
-standardId = 454
+competition_name = "TOUR DE FRANCE"
+puristId = 462
+standardId = 461
 
 restdays = [
-    datetime(2023, 5, 15),
-    datetime(2023, 5, 22),
+    datetime(2023, 7, 10),
+    datetime(2023, 7, 17),
 ]
-startday = datetime(2023, 5, 6)
-endday = datetime(2023, 5, 28)
+startday = datetime(2023, 7, 1)
+endday = datetime(2023, 7, 23)
+
+holdet_tournament_id = 443
+holdet_game_id = 663
 
 ##############################
 
@@ -59,6 +64,7 @@ status_json = "fantasy_status.json"
 
 # scores for current and old tournaments
 rider_scores_json = "rider_scores.json"
+giro23_rider_scores_json = "rider_scores_giro23.json"
 tdf22_rider_scores_json = "rider_scores_tdf22.json"
 vuelta22_rider_scores_json = "rider_scores_vuelta22.json"
 
@@ -70,6 +76,8 @@ channelId = os.getenv('DISCORD_CHANNEL_ID')
 discord_format = 'ml'
 results_folder = 'results'
 
+lts = LeTourService(os.getenv('LETOUR_TOKEN'), os.getenv('LETOUR_ACCESS_KEY'))
+
 def get_profile(tour = None, stage = None):
     if(stage == None or stage < 1 or stage > 21):
         stage = get_current_stage()
@@ -80,8 +88,10 @@ def get_profile(tour = None, stage = None):
         return f"https://cdn.cyclingstage.com/images/vuelta-spain/2022/stage-{stage}-profile.jpg"
     if tour == 'giro23' or tour == 'g23':
         return f"https://www.alpecincycling.com/wp-content/uploads/2023/05/Giro-d-Italia-2023-{stage}-Etappe-Profil-1024x682.jpg"
+    if tour == 'tdf23' or tour == 'tour23':
+        return f'https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg'
 
-    return f"https://www.alpecincycling.com/wp-content/uploads/2023/05/Giro-d-Italia-2023-{stage}-Etappe-Profil-1024x682.jpg"
+    return f"https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg"
 
 def get_tournament(str):
     lstr = str.lower()
@@ -91,10 +101,15 @@ def get_tournament(str):
     if lstr == "vuelta22" or lstr == 'v22':
         return ("vuelta22", vuelta22_rider_scores_json, True)
     
-    return ("giro23", rider_scores_json, False)
+    if lstr == "giro23" or lstr == 'g23':
+        return ("giro23", giro23_rider_scores_json, True)
+
+    return ("tdf23", rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
     return f"https://fantasy.road.cc/common/ajax.php?action=pointsoverlay&uid={uid}&sid={sid}&cid={cid}&ttid=undefined"
+
+nl = '\n'
 
 class FantasyRow():
     def __init__(self, rank, teamname, playername, daily_score, score, did_increase, increment):
@@ -154,7 +169,7 @@ def compare_string(a, b):
     elif t == 'arkea':
         a = 'samsic'
 
-    return fuzz.partial_ratio(a,b)
+    return fuzz.partial_ratio(a,b.lower())
 
 def get_fetched_status():
     data = {}
@@ -235,7 +250,7 @@ async def login():
     x = s.post(login_url, data = login_data)
     if "Login failed" in str(x.content):
         print("Couldn't login")
-        return None
+        raise Exception("Couldn't login")
     return s
 
 async def set_context(s, standard = True):
@@ -342,11 +357,7 @@ def get_rider_scores(fx=rider_scores_json):
 
 def get_current_stage():
     now = get_current_time()
-    if(now.day < startday.day and now.month > startday.month):
-        lastDayOfMonth = calendar.monthrange(startday.year, startday.month)[1]
-        return 1 + (now.day + lastDayOfMonth) - startday.day - len(list(filter(lambda r: r <= now, restdays)))
-    else:
-        return max(1, 1 + now.day - startday.day - len(list(filter(lambda r: r <= now, restdays))))
+    return max(1, 1 + (now - startday).days - len(list(filter(lambda r: r <= now, restdays))))
 
 def get_stage_points(stage, scores):
     try:
@@ -364,7 +375,6 @@ def get_stage_points(stage, scores):
 
         ret = list(map(lambda x: f"{x[0]}: {str(x[1])}", points))
         if len(points) > 0:
-            nl = '\n'
             return f"```{discord_format}\n{nl.join(ret)}```"
         else:
             return f"No points given for this stage."
@@ -408,7 +418,10 @@ async def get_transfers(s):
         
         playername = transfer_soup.find("div", {"class": "gamewindow-title"}).find("h1").text[11:]
         d[playername] = {"remaining": remaining, "transfers": []}
-        t = transfer_soup.find_all("table", {"class": "leagues"})[1]
+        ts = transfer_soup.find_all("table", {"class": "leagues"})
+        if(len(ts) < 2):
+            return d
+        t = ts[1]
         rows = t.find_all("tr")[1:]
         for r in rows:
             tds = r.find_all("td")
@@ -433,7 +446,10 @@ async def get_transfers_for_player(s, uid, current_stage):
     d = {}
     playername = transfer_soup.find("div", {"class": "gamewindow-title"}).find("h1").text[11:]
     d[playername] = {"remaining": remaining, "transfers": []}
-    t = transfer_soup.find_all("table", {"class": "leagues"})[1]
+    ts = transfer_soup.find_all("table", {"class": "leagues"})
+    if(len(ts) < 2):
+        return d
+    t = ts[1]
     rows = t.find_all("tr")[1:]
     for r in rows:
         tds = r.find_all("td")
@@ -488,7 +504,7 @@ async def untrack(ctx):
 
 @client.command()
 async def transfers(ctx):
-    msg = ctx.message.content[11:].strip()
+    msg = ctx
     try:
         if msg != '':
             stage = get_current_stage()
@@ -578,7 +594,7 @@ async def prider(ctx):
             rider = ' '.join(splmsg[1:]).strip() if len(splmsg) > 1 else ''
         else:
             rider = msg.strip()
-        scores = get_rider_scores(scores_json)    
+        scores = get_rider_scores(scores_json)
 
         greaterThan = rider[0] == ">" if len(rider) > 0 else False
         lessThan = rider[0] == "<" if len(rider) > 0 else False
@@ -796,6 +812,82 @@ async def forcefix(ctx):
     except Exception as e:
         await ctx.send(f"error in forcefix: {str(e)}")
 
+@client.command()
+async def holdet(ctx):
+    try:
+        msg = ctx.message.content[7:].strip()
+        spl = msg.split(' ')
+        sortby = 'value'
+        if(len(spl) > 0):
+            if spl[0] in ['name', 'value', 'growth', 'totalgrowth', 'popularity', 'trend']:
+                sortby = spl[0]
+            else:
+                await ctx.send(f"'{spl[0]} is not a valid sort metric'. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
+                return
+        d = HoldetDKService.get_rider_values(holdet_tournament_id, holdet_game_id, get_current_stage())
+        data = [{
+            'name': k, 
+            'value': v['value'], 
+            'growth': v['growth'],
+            'totalgrowth': v['totalGrowth'],
+            'popularity': v['popularity'] * 100,
+            'trend': v['trend']
+            } for k,v in d.items()]
+        data.sort(key=lambda r: r[sortby], reverse=False if message == 'name' else True)
+
+        if(len(spl) > 2):
+            if spl[1] == '<':
+                data = list(filter(lambda r: r[sortby] < float(spl[2]) , data))
+            if spl[1] == '>':
+                data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
+
+        output_data = list(map(lambda r: f'{r["name"]} - {r["value"]} - {r["growth"]} - {r["totalgrowth"]} - {r["popularity"]}% - {r["trend"]}', data))
+        if(len(output_data) == 0):
+            await ctx.send("No riders found")
+        else:
+            chunks = [output_data[x:x+60] for x in range(0, len(output_data), 60)]
+            await ctx.send('```{discord_format}\nRider - value - growth - total growth - popularity - trend')
+            for c in chunks:
+                await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+    
+    except Exception as e:
+        await ctx.send(f'error in holdet: {[str(e)]}')
+
+
+@client.command()
+async def letour(ctx):
+    try:
+        msg = ctx #ctx.message.content[7:].strip()
+        spl = msg.split(' ')
+        d = await lts.get_rider_values()
+        data = [{
+            'name': k, 
+            'value': float(v), 
+            } for k,v in d.items()]
+        data.sort(key=lambda r: r['value'], reverse=True)
+
+        if(len(spl) > 1):
+            if spl[0] == '<':
+                data = list(filter(lambda r: r['value'] < float(spl[1]) , data))
+            if spl[0] == '>':
+                data = list(filter(lambda r: r['value'] > float(spl[1]) , data))
+
+        output_data = list(map(lambda r: f'{r["name"]} - {r["value"]}', data))
+        if(len(output_data) == 0):
+            await ctx.send("No riders found")
+        else:
+            chunks = [output_data[x:x+60] for x in range(0, len(output_data), 60)]
+            await ctx.send('```{discord_format}\nRider - value')
+            for c in chunks:
+                await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+    
+    except Exception as e:
+        await ctx.send(f'error in letour: {[str(e)]}')
+
+# TODO: list value from road, holdet, and letour. Note biggest prize jump
+# @client.command()
+# async def prices(ctx):
+
 
 @tasks.loop(minutes=10)
 async def job():
@@ -885,20 +977,14 @@ async def job():
             channel.send(f"Error in loop: {str(e)}")
         print(e)
 
-print("bot started")
-job.start()
-client.run(os.getenv('DISCORD_KEY'))
+# print("bot started")
+# job.start()
+# client.run(os.getenv('DISCORD_KEY'))
 
-# async def main():
-#     now = get_current_time()
-#     tomorrow = now + dt.timedelta(days=1)
-#     print(now.hour == 23 and now.minute >= 50 and 
-#     now >= startday - dt.timedelta(days=1) and now < endday and
-#     len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0)
+async def main():
+    await transfers('506211')
 
-
-
-# if __name__ ==  '__main__':
-#     loop = asyncio.get_event_loop()
-#     loop.run_until_complete(main())
+if __name__ ==  '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
 
