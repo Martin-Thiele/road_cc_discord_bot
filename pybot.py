@@ -822,7 +822,7 @@ async def holdet(ctx):
             if spl[0] in ['name', 'value', 'growth', 'totalgrowth', 'popularity', 'trend']:
                 sortby = spl[0]
             else:
-                await ctx.send(f"'{spl[0]} is not a valid sort metric'. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
+                await ctx.send(f"'{spl[0]}' is not a valid sort metric. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
                 return
         d = HoldetDKService.get_rider_values(holdet_tournament_id, holdet_game_id, get_current_stage())
         data = [{
@@ -846,7 +846,7 @@ async def holdet(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'```{discord_format}\nRider - value - growth - total growth - popularity - trend')] + chunks[0]
+            chunks[0] = [(f'```Rider - value - growth - total growth - popularity - trend')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
@@ -877,7 +877,7 @@ async def letour(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'```{discord_format}\nRider - value')] + chunks[0]
+            chunks[0] = [(f'```Rider - value')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
