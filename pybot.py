@@ -977,14 +977,14 @@ async def job():
             channel.send(f"Error in loop: {str(e)}")
         print(e)
 
-# print("bot started")
-# job.start()
-# client.run(os.getenv('DISCORD_KEY'))
+print("bot started")
+job.start()
+client.run(os.getenv('DISCORD_KEY'))
 
-async def main():
-    await transfers('506211')
+# async def main():
+#     await get_riders()
 
-if __name__ ==  '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+# if __name__ ==  '__main__':
+#     loop = asyncio.get_event_loop()
+#     loop.run_until_complete(main())
 
