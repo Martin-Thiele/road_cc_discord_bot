@@ -846,7 +846,7 @@ async def holdet(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'```Rider - value - growth - total growth - popularity - trend')] + chunks[0]
+            chunks[0] = [(f'Rider - value - growth - total growth - popularity - trend')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
@@ -877,7 +877,7 @@ async def letour(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'```Rider - value')] + chunks[0]
+            chunks[0] = [(f'Rider - value')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
