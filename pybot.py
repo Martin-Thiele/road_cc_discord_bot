@@ -833,7 +833,7 @@ async def holdet(ctx):
             'popularity': v['popularity'] * 100,
             'trend': v['trend']
             } for k,v in d.items()]
-        data.sort(key=lambda r: r[sortby], reverse=False if message == 'name' else True)
+        data.sort(key=lambda r: r[sortby], reverse=False if sortby == 'name' else True)
 
         if(len(spl) > 2):
             if spl[1] == '<':
