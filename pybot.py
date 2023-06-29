@@ -841,7 +841,7 @@ async def holdet(ctx):
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
 
-        output_data = list(map(lambda r: f'{r["name"]} - {str(r["value"]):.0f} - {r["growth"]} - {r["totalgrowth"]} - {str(r["popularity"]):.2f }% - {r["trend"]}', data))
+        output_data = list(map(lambda r: f'{r["name"]} - {r["value"]:.0f} - {r["growth"]} - {r["totalgrowth"]} - {r["popularity"]:.2f}% - {r["trend"]}', data))
         if(len(output_data) == 0):
             await ctx.send("No riders found")
         else:
@@ -857,7 +857,7 @@ async def holdet(ctx):
 @client.command()
 async def letour(ctx):
     try:
-        msg = ctx.message.content[7:].strip()
+        msg = ctx #ctx.message.content[7:].strip()
         spl = msg.split(' ')
         d = await lts.get_rider_values()
         data = [{
@@ -877,11 +877,12 @@ async def letour(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks = (f'```{discord_format}\nRider - value') + chunks
+            chunks = [(f'```{discord_format}\nRider - value')] + chunks
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
     except Exception as e:
+        print(e)
         await ctx.send(f'error in letour: {[str(e)]}')
 
 # TODO: list value from road, holdet, and letour. Note biggest prize jump
@@ -982,7 +983,7 @@ job.start()
 client.run(os.getenv('DISCORD_KEY'))
 
 # async def main():
-#     await get_riders()
+#      await letour('> 5')
 
 # if __name__ ==  '__main__':
 #     loop = asyncio.get_event_loop()
