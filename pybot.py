@@ -407,7 +407,7 @@ async def get_transfers(s):
     current_stage = get_current_stage()
 
     d = {}
-    players = get_transfers_for_tracked()
+    players = get_tracked()
     for p in players:
         remaining_transfers_page = s.get(remaining_url, params={"uid": p})
         remaining = BeautifulSoup(remaining_transfers_page.content, "html.parser")
@@ -462,18 +462,18 @@ async def get_transfers_for_player(s, uid, current_stage):
             d[playername]["transfers"] = c
     return d
 
-def get_transfers_for_tracked():
+def get_tracked():
     with open("tracked.json", 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def AddToTransferTracker(uid):
-    d = get_transfers_for_tracked()
+    d = get_tracked()
     d[str(uid)] = True
     with open("tracked.json", 'w', encoding='utf-8') as f:
         return json.dump(d, f)
 
 def remove_from_transfer_tracker(uid):
-    d = get_transfers_for_tracked()
+    d = get_tracked()
     del d[str(uid)]
     with open("tracked.json", 'w', encoding='utf-8') as f:
         return json.dump(d, f)
@@ -494,7 +494,7 @@ async def track(ctx):
 
 @client.command()
 async def untrack(ctx):
-    uid = ctx.message.content[7:].strip()
+    uid = ctx.message.content[8:].strip()
     try:
         remove_from_transfer_tracker(uid)
         await ctx.send(f"Removed {uid} from players to track.")
@@ -503,8 +503,15 @@ async def untrack(ctx):
         await ctx.send(f"{uid} could not be added.")
 
 @client.command()
+async def tracked(ctx):
+    d = get_tracked()
+    user_ids = d.keys()
+    stringified = '\n'.join((map(lambda u: u, user_ids)))
+    await ctx.send(f'```{discord_format}\n{stringified}```')
+
+@client.command()
 async def transfers(ctx):
-    msg = ctx
+    msg = ctx.message.content[10:].strip()
     try:
         if msg != '':
             stage = get_current_stage()
@@ -513,7 +520,7 @@ async def transfers(ctx):
             d = await get_transfers_for_player(s, msg, stage)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await ctx.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
+                print(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
     except Exception as e:
         print(e)
         await ctx.send(f"{msg} is not a valid user id")
