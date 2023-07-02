@@ -359,6 +359,13 @@ def get_current_stage():
     now = get_current_time()
     return max(1, 1 + (now - startday).days - len(list(filter(lambda r: r <= now, restdays))))
 
+def get_tomorrow_stage():
+    curr = get_current_stage()
+    now = get_current_time()
+    if now < startday:
+        curr = 0
+    return curr + 1
+
 def get_stage_points(stage, scores):
     try:
         if stage == None:
@@ -512,6 +519,10 @@ async def tracked(ctx):
 @client.command()
 async def transfers(ctx):
     msg = ctx.message.content[10:].strip()
+    dl = await get_deadline()
+    if get_current_time() < dl:
+        await ctx.send(f"Deadline hasn't passed yet. Deadline is {dl.strftime('%H:%M')}")
+        return
     try:
         if msg != '':
             stage = get_current_stage()
@@ -520,7 +531,7 @@ async def transfers(ctx):
             d = await get_transfers_for_player(s, msg, stage)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                print(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
+                await ctx.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
     except Exception as e:
         print(e)
         await ctx.send(f"{msg} is not a valid user id")
@@ -918,7 +929,7 @@ async def job():
             len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
         ):
             dl = await get_deadline() if deadline == None else deadline 
-            stage = get_current_stage() + 1
+            stage = get_tomorrow_stage()
             hour = "" if dl == None else "0"+dl.hour if dl.minute < 10 else dl.hour
             minute = "" if dl == None else "0"+dl.minute if dl.minute < 10 else dl.minute
             await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
