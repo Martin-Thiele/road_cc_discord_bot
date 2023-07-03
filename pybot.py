@@ -842,8 +842,8 @@ async def holdet(ctx):
         data = [{
             'name': k, 
             'value': v['value'] / 1000000, 
-            'growth': v['growth'],
-            'totalgrowth': v['totalGrowth'],
+            'growth': v['growth'] / 1000000,
+            'totalgrowth': v['totalGrowth'] / 1000000,
             'popularity': v['popularity'] * 100,
             'trend': v['trend']
             } for k,v in d.items()]
@@ -855,12 +855,12 @@ async def holdet(ctx):
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
 
-        output_data = list(map(lambda r: f'{r["name"]} - {r["value"]:.0f} - {r["growth"]} - {r["totalgrowth"]} - {r["popularity"]:.2f}% - {r["trend"]}', data))
+        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.0f}, {r["growth"]:.0f}, {r["totalgrowth"]:.0f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
         if(len(output_data) == 0):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'Rider - value - growth - total growth - popularity - trend')] + chunks[0]
+            chunks[0] = [(f'Rider, value, growth, total growth, popularity, trend')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
@@ -873,7 +873,13 @@ async def letour(ctx):
     try:
         msg = ctx.message.content[7:].strip()
         spl = msg.split(' ')
-        d = await lts.get_rider_values()
+        d = await lts.get_rider_values(get_current_stage())
+        if d == None:
+            d = await lts.get_rider_values(get_current_stage() + 1)
+        
+        if d == None:
+             await ctx.send(f"Couldn't get rider values from letour.fr")
+             return
         data = [{
             'name': k, 
             'value': float(v), 
@@ -891,7 +897,7 @@ async def letour(ctx):
             await ctx.send("No riders found")
         else:
             chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'Rider - value')] + chunks[0]
+            chunks[0] = [(f'Rider - Value')] + chunks[0]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     

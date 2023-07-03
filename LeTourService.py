@@ -1,8 +1,6 @@
-import asyncio
 from dotenv import load_dotenv
 import requests
 import json
-import os
 
 load_dotenv()
 
@@ -11,7 +9,7 @@ class LeTourService:
         self.access_token = access_token
         self.x_access_key = x_access_key
 
-    async def get_rider_values(self):
+    async def get_rider_values(self, stage):
         url = 'https://fantasybytissot.letour.fr/v1/private/searchjoueurs?lg=en'
         headers = {
             'authorization': f'Token {self.access_token}',
@@ -28,7 +26,7 @@ class LeTourService:
                 'partant': False,
                 'dreamteam': False,
                 'quota': '',
-                'idj': '1',
+                'idj': str(stage),
                 'pageIndex': 0,
                 'pageSize': 250,
                 'loadSelect': 0,
@@ -38,5 +36,7 @@ class LeTourService:
 
         resp = requests.post(url, headers=headers, json=data)
         d = json.loads(resp.content)
+        if "message" in d:
+            return None
         riderDict = {item['nomcomplet']: item['valeur'] for item in d['joueurs']}
         return riderDict
