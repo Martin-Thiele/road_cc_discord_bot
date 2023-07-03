@@ -842,8 +842,8 @@ async def holdet(ctx):
         data = [{
             'name': k, 
             'value': v['value'] / 1000000, 
-            'growth': v['growth'] / 1000000,
-            'totalgrowth': v['totalGrowth'] / 1000000,
+            'growth': v['growth'] / 1000000.0,
+            'totalgrowth': v['totalGrowth'] / 1000000.0,
             'popularity': v['popularity'] * 100,
             'trend': v['trend']
             } for k,v in d.items()]
@@ -855,7 +855,7 @@ async def holdet(ctx):
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
 
-        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.0f}, {r["growth"]:.0f}, {r["totalgrowth"]:.0f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
+        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.0f}, {r["growth"]:.2f}, {r["totalgrowth"]:.2f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
         if(len(output_data) == 0):
             await ctx.send("No riders found")
         else:
