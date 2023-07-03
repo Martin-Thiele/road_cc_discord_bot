@@ -25,7 +25,7 @@ params = {
     'ldtid': '6',
     'lid': '2142',
 }
-competition_name = "TOUR DE FRANCE"
+competition_name = "Tour de France"
 puristId = 462
 standardId = 461
 
