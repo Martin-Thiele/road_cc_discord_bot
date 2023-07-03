@@ -855,7 +855,7 @@ async def holdet(ctx):
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
 
-        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.0f}, {r["growth"]:.2f}, {r["totalgrowth"]:.2f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
+        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.3f}, {r["growth"]:.3f}, {r["totalgrowth"]:.3f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
         if(len(output_data) == 0):
             await ctx.send("No riders found")
         else:
