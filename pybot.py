@@ -519,10 +519,6 @@ async def tracked(ctx):
 @client.command()
 async def transfers(ctx):
     msg = ctx.message.content[10:].strip()
-    dl = await get_deadline()
-    if get_current_time() < dl:
-        await ctx.send(f"Deadline hasn't passed yet. Deadline is {dl.strftime('%H:%M')}")
-        return
     try:
         if msg != '':
             stage = get_current_stage()
