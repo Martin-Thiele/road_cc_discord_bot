@@ -41,6 +41,8 @@ holdet_game_id = 663
 
 ##############################
 
+total_stage_count = (endday - startday).days - len(restdays) + 1
+
 intents = discord.Intents.default()
 client = commands.Bot(command_prefix="?")
 
@@ -325,7 +327,7 @@ async def sum_stages():
     soup.prettify()
     rows = soup.find_all('tr')
     d = get_from_template()
-    for i in range (1, get_current_stage()+1):
+    for i in range (1, min(total_stage_count, get_current_stage())+1):
         r = rows[i] # skip header row
         url = base_url + "/stages" + r.find("a").attrs["href"]
         lst = await get_stage_page(s, url)
@@ -584,6 +586,9 @@ async def stage(ctx):
             stage = int(splmsg[1].strip()) if len(splmsg) > 1 else None
         else:
             stage = int(msg.strip()) if len(msg) > 0 else None
+
+        if(stage > 21):
+            await ctx.send("No more stages left.")
 
         if(stage == None):
             await ctx.send(get_profile(tour))
