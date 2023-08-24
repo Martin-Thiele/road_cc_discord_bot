@@ -1,6 +1,10 @@
+import asyncio
+from typing import Optional, Tuple
 import discord
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
+from discord.abc import GuildChannel
+from discord import ForumChannel
 from discord.ext import tasks
 from discord.ext import commands
 from datetime import datetime
@@ -8,9 +12,8 @@ import datetime as dt
 import json
 from thefuzz import fuzz
 import re
-import calendar
 import os
-import asyncio
+#import asyncio
 from dateutil.relativedelta import relativedelta
 from dotenv import load_dotenv
 from HoldetDKService import HoldetDKService
@@ -25,26 +28,26 @@ params = {
     'ldtid': '6',
     'lid': '2142',
 }
-competition_name = "Tour de France"
-puristId = 462
-standardId = 461
+competition_name = "Vuelta a Espana"
+puristId = 470
+standardId = 469
 
 restdays = [
-    datetime(2023, 7, 10),
-    datetime(2023, 7, 17),
+    datetime(2023, 9, 4),
+    datetime(2023, 9, 11),
 ]
-startday = datetime(2023, 7, 1)
-endday = datetime(2023, 7, 23)
+startday = datetime(2023, 8, 26)
+endday = datetime(2023, 9, 17)
 
-holdet_tournament_id = 443
-holdet_game_id = 663
+holdet_tournament_id = 450
+holdet_game_id = 672
 
 ##############################
 
 total_stage_count = (endday - startday).days - len(restdays) + 1
 
 intents = discord.Intents.default()
-client = commands.Bot(command_prefix="?")
+client = commands.Bot(command_prefix="?", intents=intents)
 
 # endpoints
 template = "template.json"
@@ -92,8 +95,11 @@ def get_profile(tour = None, stage = None):
         return f"https://www.alpecincycling.com/wp-content/uploads/2023/05/Giro-d-Italia-2023-{stage}-Etappe-Profil-1024x682.jpg"
     if tour == 'tdf23' or tour == 'tour23':
         return f'https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg'
+    
+    if tour == 'vuelta23' or tour == 'v23':
+        return f"https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg"
 
-    return f"https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg"
+    return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
 
 def get_tournament(str):
     lstr = str.lower()
@@ -106,7 +112,10 @@ def get_tournament(str):
     if lstr == "giro23" or lstr == 'g23':
         return ("giro23", giro23_rider_scores_json, True)
 
-    return ("tdf23", rider_scores_json, False)
+    if lstr == 'tdf23' or lstr == 'tour23':
+        return ("tdf23", rider_scores_json, True)
+    
+    return ('vuelta23', rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
     return f"https://fantasy.road.cc/common/ajax.php?action=pointsoverlay&uid={uid}&sid={sid}&cid={cid}&ttid=undefined"
@@ -173,7 +182,7 @@ def compare_string(a, b):
 
     return fuzz.partial_ratio(a,b.lower())
 
-def get_fetched_status():
+def get_fetched_status() -> Tuple[bool, Optional[int], Optional[datetime], bool]:
     data = {}
     lastscore = None
     deadline = None
@@ -198,14 +207,19 @@ def get_fetched_status():
         return (False, lastscore, deadline, False)
     except Exception as e:
         print("Error in get fetched status", e)
-        return (False, lastscore, deadline)
+        return (False, lastscore, deadline, True)
 
 async def get_rider(rid, s):
     page = s.get(f'https://fantasy.road.cc/common/ajax.php?action=rideroverlay&rid={rid}')
     soup = BeautifulSoup(page.content, "html.parser")
     soup.prettify()
-    name = soup.find('h3').text.strip()
+    name_el = soup.find('h3')
+    if name_el is None:
+        raise Exception(f'rider with id {rid} not found')
+    name = name_el.text.strip()
     infotable = soup.find('table')
+    if infotable is None or not isinstance(infotable, Tag):
+        raise Exception(f'rider with id {rid} not found')
     rows = infotable.find_all('tr')
     team = rows[0].find_all('td')[1].text.strip()
     nationality = rows[1].find_all('td')[1].text.strip()
@@ -220,19 +234,26 @@ async def get_rider(rid, s):
 async def get_riders():
     d = {}
     s = await login()
-    s = await set_context(s, standard)
+    s = await set_context(s)
     p = 0
     while True:
         url = f'https://fantasy.road.cc/common/ajax.php?action=loadpicks&uid={os.getenv("ROAD_USERID")}&order=valuedesc&minval=3&maxval=40&page={p}&bal=1.2&findphrase=&allriders=0'
         page = s.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
         soup.prettify()
-        rows = soup.find("table", class_="riderlist").find_all('tr')
+        rows_el = soup.find("table", class_="riderlist")
+        if rows_el is None or not isinstance(rows_el, Tag):
+            break
+        rows = rows_el.find_all('tr')
         if len(rows) <= 1:
             break
         for r in rows[1:]:
-            rid = r.td.a.attrs['href'][len("javascript:showrider('"):-2]
-            rider = await get_rider(rid, s)
+            rid = str(r.td.a.attrs['href'][len("javascript:showrider('"):-2])
+            try:
+                rider = await get_rider(rid, s)
+            except Exception as e:
+                print(e)
+                continue
             d[rider[0]] = {
                 'team': rider[1],
                 'nationality': rider[2],
@@ -242,6 +263,9 @@ async def get_riders():
                 'stages': []
             }
         p+=1
+        if p >= 500:
+            break
+        # precaution
 
     with open('riders_new.json', 'w+', encoding='utf-8') as f:
         json.dump(d, f)
@@ -295,7 +319,10 @@ async def get_ordered_rankings(standard = True):
             subpage = s.get(player_points_url(uid, sid, cid))
             soup = BeautifulSoup(subpage.content, "html.parser")
             soup.prettify()
-            daily_score = soup.find('table').find_all("th")[-1].text
+            daily_score_el = soup.find('table')
+            if daily_score_el is None or not isinstance(daily_score_el, Tag):
+                continue
+            daily_score = daily_score_el.find_all("th")[-1].text
             row = FantasyRow(pos, teamname, playername, daily_score, score, did_increase, increment)
             players.append(row)
     return players
@@ -305,7 +332,7 @@ async def get_stage_page(s, url):
     soup = BeautifulSoup(page.content, "html.parser")
     soup.prettify()
     t = soup.find('table', {"class": "leagues"})
-    if t == None:
+    if t == None or not isinstance(t, Tag):
         return []
     rows = t.find_all('tr')
     ret = []
@@ -319,7 +346,7 @@ async def get_stage_page(s, url):
 
 async def sum_stages():
     s = await login()
-    s = await set_context(s, standard)
+    s = await set_context(s)
 
     page = s.get(stages_url, params=params)
 
@@ -402,7 +429,9 @@ async def get_deadline(stage=None):
         page = s.get(deadline_url)
         soup = BeautifulSoup(page.content, "html.parser")
         script = soup.find_all('script')[10]
-        p = re.search('var nextStageTime = \d+', script.text)
+        p = re.search(r'var nextStageTime = \d+', script.text)
+        if p is None:
+            return None
         return (datetime.utcfromtimestamp(int(p.group()[20:])) + dt.timedelta(hours=2))
     except Exception as e:
         print(e)
@@ -425,7 +454,14 @@ async def get_transfers(s):
         transfer_soup = BeautifulSoup(todays_transfers_page.content, "html.parser")
         transfer_soup.prettify()
         
-        playername = transfer_soup.find("div", {"class": "gamewindow-title"}).find("h1").text[11:]
+        playername_element = transfer_soup.find("div", {"class": "gamewindow-title"})
+        if playername_element is None:
+            continue
+        playername_str = playername_element.find("h1")
+        if playername_str is None or not isinstance(playername_str, Tag):
+            print("not a tag")
+            continue
+        playername = playername_str.text[11:]
         d[playername] = {"remaining": remaining, "transfers": []}
         ts = transfer_soup.find_all("table", {"class": "leagues"})
         if(len(ts) < 2):
@@ -453,7 +489,14 @@ async def get_transfers_for_player(s, uid, current_stage):
     transfer_soup.prettify()
     
     d = {}
-    playername = transfer_soup.find("div", {"class": "gamewindow-title"}).find("h1").text[11:]
+    playername_el = transfer_soup.find("div", {"class": "gamewindow-title"})
+    if  playername_el is None:
+        return d
+    playername_title_el = playername_el.find("h1")
+    if playername_title_el is None or not isinstance(playername_title_el, Tag):
+        print("not a tag")
+        return d
+    playername = playername_title_el.text[11:]
     d[playername] = {"remaining": remaining, "transfers": []}
     ts = transfer_soup.find_all("table", {"class": "leagues"})
     if(len(ts) < 2):
@@ -587,7 +630,7 @@ async def stage(ctx):
         else:
             stage = int(msg.strip()) if len(msg) > 0 else None
 
-        if(stage > 21):
+        if(stage is not None and stage > 21):
             await ctx.send("No more stages left.")
 
         if(stage == None):
@@ -661,7 +704,7 @@ async def prider(ctx):
                 name_line += f", {result['nationality']}"
             if 'birthday' in result:
                 parsed = datetime.strptime(result["birthday"], "%d/%m/%Y") if result["birthday"] != None else "Unknown"
-                age = relativedelta(datetime.utcnow(), parsed).years if result["birthday"] != None else "Unknown"
+                age = relativedelta(datetime.utcnow(), parsed).years if result["birthday"] != None and parsed != 'Unknown' else "Unknown"
                 name_line += f", age: {age}"
             if 'value' in result:
                 name_line += f", value: {result['value']}"
@@ -734,7 +777,7 @@ async def vrider(ctx):
                 name_line += f", {result['nationality']}"
             if 'birthday' in result:
                 parsed = datetime.strptime(result["birthday"], "%d/%m/%Y") if result["birthday"] != None else "Unknown"
-                age = relativedelta(datetime.utcnow(), parsed).years if result["birthday"] != None else "Unknown"
+                age = relativedelta(datetime.utcnow(), parsed).years if result["birthday"] != None and parsed != 'Unknown' else "Unknown"
                 name_line += f", age: {age}"
             if 'value' in result:
                 name_line += f", value: {result['value']}"
@@ -914,14 +957,18 @@ async def letour(ctx):
 # @client.command()
 # async def prices(ctx):
 
+async def send_message(channel: GuildChannel, message):
+    await channel.send(message) # type: ignore
 
 @tasks.loop(minutes=10)
 async def job():
     channel = None
+    if channelId is None:
+        return
+    channel = client.get_channel(int(channelId))
+    if channel == None or not isinstance(channel, discord.abc.GuildChannel):
+        return
     try:
-        channel = client.get_channel(int(channelId))
-        if channel == None:
-            return
 
         now = get_current_time()
         tomorrow = now + dt.timedelta(days=1)
@@ -937,11 +984,11 @@ async def job():
         ):
             dl = await get_deadline() if deadline == None else deadline 
             stage = get_tomorrow_stage()
-            hour = "" if dl == None else "0"+dl.hour if dl.minute < 10 else dl.hour
-            minute = "" if dl == None else "0"+dl.minute if dl.minute < 10 else dl.minute
-            await channel.send(f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
-            await channel.send("Following is next stage!")
-            await channel.send(get_profile(None, stage))
+            hour = "" if dl == None else f'0{dl.hour}' if dl.minute < 10 else dl.hour
+            minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
+            await send_message(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
+            await send_message(channel, "Following is next stage!")
+            await send_message(channel, get_profile(None, stage))
             set_fetched_status(dont_look, lasthighscore, dl, True)
 
         # don't do anything on days without a race
@@ -954,7 +1001,7 @@ async def job():
             d = await get_transfers(s)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await channel.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out}```")
+                await send_message(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out}```")
 
             set_fetched_status(dont_look, lasthighscore, None, warned)
 
@@ -965,25 +1012,25 @@ async def job():
             rankings = await get_ordered_rankings(True)
             
             if rankings == None:
-                await channel.send(f"bot couldn't login")
+                await send_message(channel, f"bot couldn't login")
                 return
 
             new_highscore = rankings[0].score
             # ensure a score is found such that we continue checking
-            if(new_highscore != "-" and int(new_highscore) > lasthighscore):
+            if(new_highscore != "-" and int(new_highscore) > (0 if lasthighscore is None else lasthighscore)):
                 
                 # update the rider rankings
                 scores = await sum_stages()
                 msg = get_stage_points(None, scores)
-                await channel.send("**POINTS!**")
-                await channel.send(msg)
+                await send_message(channel, "**POINTS!**")
+                await send_message(channel, msg)
                 res = '**STANDARD**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
                 
                 
                 rankingsp = await get_ordered_rankings(False)
                 # check for scores in purist
                 if rankingsp == None:
-                    await channel.send(f"bot couldn't login")
+                    await send_message(channel, f"bot couldn't login")
                     return
 
                 res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankingsp)))
@@ -993,24 +1040,24 @@ async def job():
                 set_fetched_status(True, int(new_highscore), new_deadline, warned)
 
                 # send message to discord
-                await channel.send(res)
+                await send_message(channel, res)
 
         # reset to track for new scores
         if(now.hour == 6):
             set_fetched_status(False, lasthighscore, deadline, False)
     except Exception as e:
         if channel:
-            channel.send(f"Error in loop: {str(e)}")
+            await send_message(channel, (f"Error in loop: {str(e)}"))
         print(e)
 
-print("bot started")
-job.start()
-client.run(os.getenv('DISCORD_KEY'))
 
-# async def main():
-#      await letour('> 5')
+async def main():
+    #await get_riders()
+    print("bot started")
+    job.start()
+    await client.start(os.getenv('DISCORD_KEY', ''))
 
-# if __name__ ==  '__main__':
-#     loop = asyncio.get_event_loop()
-#     loop.run_until_complete(main())
+if __name__ ==  '__main__':
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(main())
 

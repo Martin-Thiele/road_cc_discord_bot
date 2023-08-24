@@ -1,2 +1,5 @@
-.env
 tracked.json
+
+.env
+.vscode
+*.pyc
