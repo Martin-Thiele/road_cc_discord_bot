@@ -1002,7 +1002,7 @@ async def ratio(ctx):
     res.sort(key=lambda x: x['ratio'], reverse=False)
     
     res = [{'name': 'Rider', spl[0]: spl[0], spl[1]: spl[1], f'{spl[1]} (adjusted)': f'{spl[1]} (adjusted)', 'ratio': 'ratio'}] + res
-    chunks = [pretty_format(res[x:x+30]) for x in range(0, len(res), 30)]
+    chunks = [pretty_format(res[x:x+25]) for x in range(0, len(res), 25)]
     for c in chunks:
         await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
 
