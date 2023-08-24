@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 import requests
 import json
 
@@ -31,7 +31,7 @@ class HoldetDKService():
         } for k,v in d.items() }
 
     @staticmethod
-    def get_rider_values_formatted(tournament_id, game_id, stage) -> list[Dict[str, Any]]:
+    def get_rider_values_formatted(tournament_id, game_id, stage) -> List[Dict[str, Any]]:
         d = HoldetDKService.get_rider_values(tournament_id, game_id, stage)
         return [{
             'name': k, 

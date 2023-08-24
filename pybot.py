@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 import discord
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -1097,7 +1097,7 @@ async def job():
             await send_message(channel, (f"Error in loop: {str(e)}"))
         print(e)
 
-def pretty_format(data: list[Dict[str, Any]]) -> list[str]:
+def pretty_format(data: List[Dict[str, Any]]) -> List[str]:
     data = [{k: f"{v:.2f}" if isinstance(v, float) else v for k, v in item.items()} for item in data]
     max_lengths = {key: max(len(str(item[key])) for item in data) for key in data[0].keys()}
     return [''.join(f'{v}{" " * ((1 + max_lengths[k]) - len(str(v)))}' for k, v in r.items()) for r in data]
