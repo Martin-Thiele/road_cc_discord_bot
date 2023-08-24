@@ -1,5 +1,5 @@
 import asyncio
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 import discord
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -47,6 +47,7 @@ holdet_game_id = 672
 total_stage_count = (endday - startday).days - len(restdays) + 1
 
 intents = discord.Intents.default()
+intents.message_content = True
 client = commands.Bot(command_prefix="?", intents=intents)
 
 # endpoints
@@ -159,7 +160,20 @@ def set_fetched_status(status, newscore, deadline, warned):
 def get_current_time():
     return datetime.utcnow() + dt.timedelta(hours=2)
 
-def compare_string(a, b):
+def simplify_rider_name(name):
+    if name == 'jonathon klever caicedo':
+        name = 'jonathan caicedo'
+    return name
+
+def compare_rider_name(a: str, b: str):
+    a = a.lower()
+    b = b.lower()
+    a = simplify_rider_name(a)
+    b = simplify_rider_name(b)
+    return fuzz.partial_ratio(a,b)
+
+
+def compare_team_name(a: str, b: str):
     t = a.lower()
     if t == "ef":
         a = "EF Education"
@@ -231,7 +245,7 @@ async def get_rider(rid, s):
     form = rows[4].find_all('td')[1].text
     return(name, team, nationality, birthday, value, form)
 
-async def get_riders():
+async def get_riders() -> dict[str, dict[str, Any]]:
     d = {}
     s = await login()
     s = await set_context(s)
@@ -368,7 +382,7 @@ async def sum_stages():
         json.dump(d, f)
     return d
 
-def get_from_template():
+def get_from_template() -> dict[str, dict[str, Any]]:
     with open(template, 'r', encoding='utf-8') as f:
         return json.load(f)
 
@@ -459,7 +473,6 @@ async def get_transfers(s):
             continue
         playername_str = playername_element.find("h1")
         if playername_str is None or not isinstance(playername_str, Tag):
-            print("not a tag")
             continue
         playername = playername_str.text[11:]
         d[playername] = {"remaining": remaining, "transfers": []}
@@ -494,7 +507,6 @@ async def get_transfers_for_player(s, uid, current_stage):
         return d
     playername_title_el = playername_el.find("h1")
     if playername_title_el is None or not isinstance(playername_title_el, Tag):
-        print("not a tag")
         return d
     playername = playername_title_el.text[11:]
     d[playername] = {"remaining": remaining, "transfers": []}
@@ -684,7 +696,7 @@ async def prider(ctx):
                 for c in chunks:
                     await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
         else:
-            matches = list(map(lambda x: (x, compare_string(rider, x)), scores.keys()))
+            matches = list(map(lambda x: (x, compare_team_name(rider, x)), scores.keys()))
             matches.sort(key=lambda x: x[1], reverse=True)
             name = matches[0][0]
             match = matches[0][1]
@@ -758,7 +770,7 @@ async def vrider(ctx):
                 for c in chunks:
                     await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
         else:
-            matches = list(map(lambda x: (x, compare_string(rider, x)), scores.keys()))
+            matches = list(map(lambda x: (x, compare_team_name(rider, x)), scores.keys()))
             matches.sort(key=lambda x: x[1], reverse=True)
             name = matches[0][0]
             match = matches[0][1]
@@ -821,7 +833,7 @@ async def pteam(ctx):
             await ctx.send(f"```{discord_format}\n{nl.join(ret)}```")
         else:
             all_teams = {v["team"]:True for (k,v) in scores.items()}.keys()
-            matches = list(map(lambda x: (x, compare_string(team, x)), all_teams))
+            matches = list(map(lambda x: (x, compare_team_name(team, x)), all_teams))
             matches.sort(key=lambda x: x[1], reverse=True)
             name = matches[0][0]
             riders = {k:v for (k,v) in scores.items() if v["team"] == name}
@@ -880,21 +892,13 @@ async def holdet(ctx):
         msg = ctx.message.content[7:].strip()
         spl = msg.split(' ')
         sortby = 'value'
-        if(len(spl) > 0):
+        if(len(spl) > 1):
             if spl[0] in ['name', 'value', 'growth', 'totalgrowth', 'popularity', 'trend']:
                 sortby = spl[0]
             else:
                 await ctx.send(f"'{spl[0]}' is not a valid sort metric. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
                 return
-        d = HoldetDKService.get_rider_values(holdet_tournament_id, holdet_game_id, get_current_stage())
-        data = [{
-            'name': k, 
-            'value': v['value'] / 1000000, 
-            'growth': v['growth'] / 1000000.0,
-            'totalgrowth': v['totalGrowth'] / 1000000.0,
-            'popularity': v['popularity'] * 100,
-            'trend': v['trend']
-            } for k,v in d.items()]
+        data = HoldetDKService.get_rider_values_formatted(holdet_tournament_id, holdet_game_id, get_current_stage())
         data.sort(key=lambda r: r[sortby], reverse=False if sortby == 'name' else True)
 
         if(len(spl) > 2):
@@ -902,16 +906,16 @@ async def holdet(ctx):
                 data = list(filter(lambda r: r[sortby] < float(spl[2]) , data))
             if spl[1] == '>':
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
-
-        output_data = list(map(lambda r: f'{r["name"]}, {r["value"]:.3f}, {r["growth"]:.3f}, {r["totalgrowth"]:.3f}, {r["popularity"]:.2f}%, {r["trend"]}', data))
-        if(len(output_data) == 0):
+        
+        if(len(data) == 0):
             await ctx.send("No riders found")
         else:
-            chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'Rider, value, growth, total growth, popularity, trend')] + chunks[0]
+            data = [{'name': 'Rider', 'value': 'value', 'growth': 'growth', 'totalgrowth': 'total growth', 'popularity': 'popularity', 'trend': 'trend'}] + data
+            chunks = [pretty_format(data[x:x+30]) for x in range(0, len(data), 30)]
             for c in chunks:
                 await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
     
+
     except Exception as e:
         await ctx.send(f'error in holdet: {[str(e)]}')
 
@@ -953,12 +957,56 @@ async def letour(ctx):
         print(e)
         await ctx.send(f'error in letour: {[str(e)]}')
 
-# TODO: list value from road, holdet, and letour. Note biggest prize jump
-# @client.command()
-# async def prices(ctx):
+@client.command()
+async def ratio(ctx):
+    msg = ctx.message.content[7:].strip().lower()
+    spl = msg.split(' ')
 
-async def send_message(channel: GuildChannel, message):
-    await channel.send(message) # type: ignore
+    available_sources = ['road', 'holdet']
+    if len(spl) >= 2:
+        if spl[0] not in available_sources:
+            await ctx.send(f"{spl[0]} is not a valid source. Available sources are {', '.join(available_sources)}")
+        if spl[1] not in available_sources:
+            await ctx.send(f"{spl[1]} is not a valid source. Available sources are {', '.join(available_sources)}")
+    else:
+        spl = ['holdet', 'road']
+
+
+    def normalize(value, min, max):
+        return (value - min) / (max - min)
+
+    s1 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[0] == 'holdet' else get_from_template()
+    s2 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[1] == 'holdet' else get_from_template()
+    s1_max_val = max(s1.values(), key=lambda x: x['value'])['value']
+    s1_min_val = min(s1.values(), key=lambda x: x['value'])['value']
+    s2_min = min(s2.values(), key=lambda x: x['value'])['value']
+    s2_max = max(s2.values(), key=lambda x: x['value'])['value']
+    #s1_normalized = {key: {'value': normalize(item['value'], s1_min_val, s1_max_val)} for key, item in s1.items()}
+    s2_normalized = {key: {'value': (item['value'] - s2_min) * (s1_max_val - s1_min_val) / (s2_max - s2_min) + s1_min_val} for key, item in s2.items()}
+    
+    res = []
+    for name, data in s1.items():
+        compared_scores = [(k, max(compare_rider_name(name, k), compare_rider_name(k, name))) for k, v in s2_normalized.items()]
+        compared_scores.sort(key=lambda x: x[1], reverse=True)
+        best_match_score = compared_scores[0][1]
+        best_match_name = compared_scores[0][0]
+        if best_match_score < 75:
+            # poor match
+            res.append({'name': name, spl[0]: data['value'], spl[1]: 0, f'{spl[1]} (adjusted)': 0, 'ratio': 0})
+            print(name, best_match_name, best_match_score)
+            continue
+        best_match_data = s2_normalized[best_match_name]
+        ratio = data['value'] / best_match_data['value']
+        res.append({'name': name, spl[0]: data['value'], spl[1]: s2[best_match_name]['value'], f'{spl[1]} (adjusted)': best_match_data['value'], 'ratio': ratio})
+
+
+    res.sort(key=lambda x: x['ratio'], reverse=False)
+    
+    res = [{'name': 'Rider', spl[0]: spl[0], spl[1]: spl[1], f'{spl[1]} (adjusted)': f'{spl[1]} (adjusted)', 'ratio': 'ratio'}] + res
+    chunks = [pretty_format(res[x:x+30]) for x in range(0, len(res), 30)]
+    for c in chunks:
+        await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+
 
 @tasks.loop(minutes=10)
 async def job():
@@ -1050,14 +1098,31 @@ async def job():
             await send_message(channel, (f"Error in loop: {str(e)}"))
         print(e)
 
+def pretty_format(data: list[dict[str, Any]]) -> list[str]:
+    data = [{k: f"{v:.2f}" if isinstance(v, float) else v for k, v in item.items()} for item in data]
+    max_lengths = {key: max(len(str(item[key])) for item in data) for key in data[0].keys()}
+    return [''.join(f'{v}{" " * ((1 + max_lengths[k]) - len(str(v)))}' for k, v in r.items()) for r in data]
 
-async def main():
-    #await get_riders()
-    print("bot started")
+async def send_message(channel: GuildChannel, message):
+    await channel.send(message) # type: ignore
+
+
+@client.listen()
+async def on_ready():
     job.start()
-    await client.start(os.getenv('DISCORD_KEY', ''))
 
-if __name__ ==  '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(main())
+
+
+client.run(os.getenv('DISCORD_KEY', ''))
+
+
+#async def main():
+    #await get_riders()
+    #await holdet('')
+
+
+
+#if __name__ ==  '__main__':
+#    loop = asyncio.get_event_loop()
+#    loop.run_until_complete(main())
 
