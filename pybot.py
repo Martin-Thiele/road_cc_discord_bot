@@ -385,7 +385,7 @@ def get_from_template() -> Dict[str, Dict[str, Any]]:
     with open(template, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def get_rider_scores(fx=rider_scores_json):
+def get_rider_scores(fx=rider_scores_json) -> Dict[str, Dict[str, Any]]:
     d = {}
     if(fx == rider_scores_json):
         with open(template, 'r', encoding='utf-8') as t:
