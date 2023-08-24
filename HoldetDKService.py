@@ -1,10 +1,10 @@
-from typing import Any
+from typing import Any, Dict
 import requests
 import json
 
 class HoldetDKService():
     @staticmethod
-    def get_rider_values(tournament_id, game_id, stage) -> dict[str, Any]:
+    def get_rider_values(tournament_id, game_id, stage) -> Dict[str, Any]:
         resp = requests.get(f'https://api.holdet.dk/tournaments/{tournament_id}?appid=holdet&culture=da-DK')
         nameData = json.loads(resp.content)
         resp = requests.get(f'https://api.holdet.dk/games/{game_id}/rounds/{stage}/statistics?appid=holdet&culture=da-DK')
@@ -14,13 +14,13 @@ class HoldetDKService():
         nameDict = {item['id']: item for item in nameData['persons']}
         playerDict = {item['person']['id']: item for item in nameData['players']}
         riderDict = {item['player']['id']: item for item in riderData}
-        d: dict[str, Any] = {}
+        d: Dict[str, Any] = {}
         for (k,v) in nameDict.items():
             d[f"{v['firstname']} {v['lastname']}"] = riderDict[playerDict[v['id']]['id']]['values']
         return d
     
     @staticmethod
-    def get_rider_values_dict(tournament_id, game_id, stage) -> dict[str, dict[str, Any]]:
+    def get_rider_values_dict(tournament_id, game_id, stage) -> Dict[str, Dict[str, Any]]:
         d = HoldetDKService.get_rider_values(tournament_id, game_id, stage)
         return {k: {
             'value': v['value'] / 1000000,
@@ -31,7 +31,7 @@ class HoldetDKService():
         } for k,v in d.items() }
 
     @staticmethod
-    def get_rider_values_formatted(tournament_id, game_id, stage) -> list[dict[str, Any]]:
+    def get_rider_values_formatted(tournament_id, game_id, stage) -> list[Dict[str, Any]]:
         d = HoldetDKService.get_rider_values(tournament_id, game_id, stage)
         return [{
             'name': k, 

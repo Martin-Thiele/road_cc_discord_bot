@@ -1,5 +1,5 @@
 import asyncio
-from typing import Any, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple
 import discord
 import requests
 from bs4 import BeautifulSoup, Tag
@@ -244,7 +244,7 @@ async def get_rider(rid, s):
     form = rows[4].find_all('td')[1].text
     return(name, team, nationality, birthday, value, form)
 
-async def get_riders() -> dict[str, dict[str, Any]]:
+async def get_riders() -> Dict[str, Dict[str, Any]]:
     d = {}
     s = await login()
     s = await set_context(s)
@@ -381,7 +381,7 @@ async def sum_stages():
         json.dump(d, f)
     return d
 
-def get_from_template() -> dict[str, dict[str, Any]]:
+def get_from_template() -> Dict[str, Dict[str, Any]]:
     with open(template, 'r', encoding='utf-8') as f:
         return json.load(f)
 
@@ -1097,7 +1097,7 @@ async def job():
             await send_message(channel, (f"Error in loop: {str(e)}"))
         print(e)
 
-def pretty_format(data: list[dict[str, Any]]) -> list[str]:
+def pretty_format(data: list[Dict[str, Any]]) -> list[str]:
     data = [{k: f"{v:.2f}" if isinstance(v, float) else v for k, v in item.items()} for item in data]
     max_lengths = {key: max(len(str(item[key])) for item in data) for key in data[0].keys()}
     return [''.join(f'{v}{" " * ((1 + max_lengths[k]) - len(str(v)))}' for k, v in r.items()) for r in data]
