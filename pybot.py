@@ -4,7 +4,6 @@ import discord
 import requests
 from bs4 import BeautifulSoup, Tag
 from discord.abc import GuildChannel
-from discord import ForumChannel
 from discord.ext import tasks
 from discord.ext import commands
 from datetime import datetime
