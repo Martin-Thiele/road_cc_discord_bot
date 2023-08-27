@@ -1044,7 +1044,7 @@ async def job():
             d = await get_transfers(s)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await send_message(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out}```")
+                await send_message(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format if out != '' else ''}\n{out if out != '' else 'None'}```")
 
             set_fetched_status(dont_look, lasthighscore, None, warned)
 
