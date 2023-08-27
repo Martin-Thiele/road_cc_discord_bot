@@ -4,8 +4,7 @@ import discord
 import requests
 from bs4 import BeautifulSoup, Tag
 from discord.abc import GuildChannel
-from discord.ext import tasks
-from discord.ext import commands
+from discord.ext import tasks, commands
 from datetime import datetime
 import datetime as dt
 import json
@@ -71,6 +70,7 @@ status_json = "fantasy_status.json"
 rider_scores_json = "rider_scores.json"
 giro23_rider_scores_json = "rider_scores_giro23.json"
 tdf22_rider_scores_json = "rider_scores_tdf22.json"
+tdf23_rider_scores_json = "rider_scores_tdf23.json"
 vuelta22_rider_scores_json = "rider_scores_vuelta22.json"
 
 login_data = {
@@ -95,9 +95,8 @@ def get_profile(tour = None, stage = None):
         return f"https://www.alpecincycling.com/wp-content/uploads/2023/05/Giro-d-Italia-2023-{stage}-Etappe-Profil-1024x682.jpg"
     if tour == 'tdf23' or tour == 'tour23':
         return f'https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg'
-    
     if tour == 'vuelta23' or tour == 'v23':
-        return f"https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg"
+        return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
 
     return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
 
@@ -105,15 +104,12 @@ def get_tournament(str):
     lstr = str.lower()
     if lstr == "tdf22" or lstr == 'tour22':
         return ("tdf22", tdf22_rider_scores_json, True)
-
     if lstr == "vuelta22" or lstr == 'v22':
         return ("vuelta22", vuelta22_rider_scores_json, True)
-    
     if lstr == "giro23" or lstr == 'g23':
         return ("giro23", giro23_rider_scores_json, True)
-
     if lstr == 'tdf23' or lstr == 'tour23':
-        return ("tdf23", rider_scores_json, True)
+        return ("tdf23", tdf23_rider_scores_json, True)
     
     return ('vuelta23', rider_scores_json, False)
 
@@ -542,38 +538,38 @@ def remove_from_transfer_tracker(uid):
         return json.dump(d, f)
 
 @client.command()
-async def shrewbs(ctx):
-    await ctx.send(f":)")
+async def shrewbs(ctx: commands.Context):
+    await send_message(ctx, f":)")
 
 @client.command()
-async def track(ctx):
+async def track(ctx: commands.Context):
     uid = ctx.message.content[7:].strip()
     try:
         AddToTransferTracker(uid)
-        await ctx.send(f"Added {uid} to players to track.")
+        await send_message(ctx, f"Added {uid} to players to track.")
     except Exception as e:
         print(e)
-        await ctx.send(f"Added {uid} from players to track.")
+        await send_message(ctx, f"Added {uid} from players to track.")
 
 @client.command()
-async def untrack(ctx):
+async def untrack(ctx: commands.Context):
     uid = ctx.message.content[8:].strip()
     try:
         remove_from_transfer_tracker(uid)
-        await ctx.send(f"Removed {uid} from players to track.")
+        await send_message(ctx, f"Removed {uid} from players to track.")
     except Exception as e:
         print(e)
-        await ctx.send(f"{uid} could not be added.")
+        await send_message(ctx, f"{uid} could not be added.")
 
 @client.command()
-async def tracked(ctx):
+async def tracked(ctx: commands.Context):
     d = get_tracked()
     user_ids = d.keys()
     stringified = '\n'.join((map(lambda u: u, user_ids)))
-    await ctx.send(f'```{discord_format}\n{stringified}```')
+    await send_message(ctx, f'```{discord_format}\n{stringified}```')
 
 @client.command()
-async def transfers(ctx):
+async def transfers(ctx: commands.Context):
     msg = ctx.message.content[10:].strip()
     try:
         if msg != '':
@@ -583,10 +579,10 @@ async def transfers(ctx):
             d = await get_transfers_for_player(s, msg, stage)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await ctx.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
+                await send_message(ctx, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
     except Exception as e:
         print(e)
-        await ctx.send(f"{msg} is not a valid user id")
+        await send_message(ctx, f"{msg} is not a valid user id")
 
     try:
         if msg == '':
@@ -594,44 +590,46 @@ async def transfers(ctx):
             d = await get_transfers(s)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await ctx.send(f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
+                await send_message(ctx, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format}\n{out if out != '' else 'No transfers'}```")
     except Exception as e:
         print(e)
-        await ctx.send(f'error in transfers: {str(e)}')
+        await send_message(ctx, f'error in transfers: {str(e)}')
 
 @client.command()
-async def rank(ctx):
+async def rank(ctx: commands.Context):
         rankings = await get_ordered_rankings()
         res = '**STANDARD**\n'+'\n'.join(list(map(lambda x: x.toString(), rankings)))
-        await ctx.send(f"{res}")
+        await send_message(ctx, f"{res}")
         if rankings == None:
-            await ctx.send(f"bot couldn't login")
+            await send_message(ctx, f"bot couldn't login")
             return
 
 @client.command()
-async def standard(ctx):
+async def standard(ctx: commands.Context):
     await rank(ctx)
 
 @client.command()
-async def rankp(ctx):
+async def rankp(ctx: commands.Context):
     rankings = await get_ordered_rankings(False)
     if rankings == None:
-        await ctx.send(f"bot couldn't login")
+        await send_message(ctx, f"bot couldn't login")
         return
     res = '**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
-    await ctx.send(f"{res}")
+    await send_message(ctx, f"{res}")
 
 @client.command()
-async def purist(ctx):
+async def purist(ctx: commands.Context):
     await rankp(ctx)
 
 @client.command()
-async def stage(ctx):
+async def stage(ctx: commands.Context):
     stage = None
     try:
         msg = ctx.message.content[7:].strip()
         splmsg = msg.split(' ')
-        mbytour = splmsg[0]
+        mbytour = ''
+        if len(splmsg) >= 2:
+            mbytour = splmsg[0]
         tour = None
 
         tour, _, old = get_tournament(mbytour)
@@ -642,18 +640,18 @@ async def stage(ctx):
             stage = int(msg.strip()) if len(msg) > 0 else None
 
         if(stage is not None and stage > 21):
-            await ctx.send("No more stages left.")
+            await send_message(ctx, "No more stages left.")
 
         if(stage == None):
-            await ctx.send(get_profile(tour))
+            await send_message(ctx, get_profile(tour))
         else:
-            await ctx.send(get_profile(tour, stage))
+            await send_message(ctx, get_profile(tour, stage))
     except Exception as e:
         print(e)
-        await ctx.send(f"{stage} is not a valid stage")
+        await send_message(ctx, f"{stage} is not a valid stage")
 
 @client.command()
-async def prider(ctx):
+async def prider(ctx: commands.Context):
     rider = ''
     try:
         msg = ctx.message.content[8:].strip()
@@ -687,13 +685,10 @@ async def prider(ctx):
 
             lst.sort(key=lambda x: x[1], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(x[1])} ({x[2]})", lst))
-            chunks = [ret[x:x+60] for x in range(0, len(ret), 60)]
-            nl = '\n'
             if(len(ret) == 0):
-                await ctx.send("No rider fits the description")
+                await send_message(ctx, "No rider fits the description")
             else:
-                for c in chunks:
-                    await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+                await send_message(ctx, f"```{discord_format}\n{nl.join(ret)}```")
         else:
             matches = list(map(lambda x: (x, compare_team_name(rider, x)), scores.keys()))
             matches.sort(key=lambda x: x[1], reverse=True)
@@ -701,13 +696,12 @@ async def prider(ctx):
             match = matches[0][1]
 
             if(match < 60):
-                await ctx.send(f"No good result was found. The best guess was {name}. Type more of their name to finish the query.")
+                await send_message(ctx, f"No good result was found. The best guess was {name}. Type more of their name to finish the query.")
                 return
             
             result = scores[name]
             total = sum(map(lambda x: x["points"], result["stages"]))
             ppptotal =  str(round(total / result["value"],2)) if 'value' in result else '0' 
-            nl = '\n'
 
             name_line = f"{name} - {result['team']}"
 
@@ -721,13 +715,13 @@ async def prider(ctx):
                 name_line += f", value: {result['value']}"
             if 'form' in result:
                 name_line += f", form: {result['form']}"
-            await ctx.send(f"```{discord_format}\n{name_line}\n{nl.join(list(map(lambda x: 'Stage ' + str(x['stage']) + ': ' + str(x['points']), result['stages'])))}\nTotal: {total} ({'0' if ppptotal == None else ppptotal})```")
+            await send_message(ctx, f"```{discord_format}\n{name_line}\n{nl.join(list(map(lambda x: 'Stage ' + str(x['stage']) + ': ' + str(x['points']), result['stages'])))}\nTotal: {total} ({'0' if ppptotal == None else ppptotal})```")
     except Exception as e:
         print(e)
-        await ctx.send(f"prider error: {str(e)}")
+        await send_message(ctx, f"prider error: {str(e)}")
 
 @client.command()
-async def vrider(ctx):
+async def vrider(ctx: commands.Context):
     rider = ''
     try:
         msg = ctx.message.content[8:].strip()
@@ -761,13 +755,10 @@ async def vrider(ctx):
 
             lst.sort(key=lambda x: x[2], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(round(x[2], 2))} ({x[1]})", lst))
-            chunks = [ret[x:x+60] for x in range(0, len(ret), 60)]
-            nl = '\n'
             if(len(ret) == 0):
-                await ctx.send("No rider fits the description")
+                await send_message(ctx, "No rider fits the description")
             else:
-                for c in chunks:
-                    await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+                await send_message(ctx, f"```{discord_format}\n{nl.join(ret)}```")
         else:
             matches = list(map(lambda x: (x, compare_team_name(rider, x)), scores.keys()))
             matches.sort(key=lambda x: x[1], reverse=True)
@@ -775,13 +766,12 @@ async def vrider(ctx):
             match = matches[0][1]
 
             if(match < 60):
-                await ctx.send(f"No good result was found. The best guess was {name}. Type more of their name to finish the query.")
+                await send_message(ctx, f"No good result was found. The best guess was {name}. Type more of their name to finish the query.")
                 return
             
             result = scores[name]
             total = sum(map(lambda x: x["points"], result["stages"]))
             ppptotal =  str(round(total / result["value"],2)) if 'value' in result else None 
-            nl = '\n'
             name_line = f"{name} - {result['team']}"
 
             if 'nationality' in result:
@@ -794,13 +784,13 @@ async def vrider(ctx):
                 name_line += f", value: {result['value']}"
             if 'form' in result:
                 name_line += f", form: {result['form']}"
-            await ctx.send(f"```{discord_format}\n{name_line}\n{nl.join(list(map(lambda x: 'Stage ' + str(x['stage']) + ': ' + (str(round(x['points']/result['value'],2))) if 'value' in result else '0' + ' (' + str(x['points']) + ')', result['stages'])))}\nTotal: {'0' if None else ppptotal} ({total})```")
+            await send_message(ctx, f"```{discord_format}\n{name_line}\n{nl.join(list(map(lambda x: 'Stage ' + str(x['stage']) + ': ' + (str(round(x['points']/result['value'],2))) if 'value' in result else '0' + ' (' + str(x['points']) + ')', result['stages'])))}\nTotal: {'0' if None else ppptotal} ({total})```")
     except Exception as e:
         print(e)
-        await ctx.send(f"'{rider}' could not be found.")
+        await send_message(ctx, f"'{rider}' could not be found.")
 
 @client.command()
-async def pteam(ctx):
+async def pteam(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         splmsg = msg.split(' ')
@@ -828,8 +818,7 @@ async def pteam(ctx):
             lst = list(d.items())
             lst.sort(key=lambda x: x[1], reverse=True)
             ret = list(map(lambda x: f"{x[0]}: {str(x[1])}", lst))
-            nl = '\n'
-            await ctx.send(f"```{discord_format}\n{nl.join(ret)}```")
+            await send_message(ctx, f"```{discord_format}\n{nl.join(ret)}```")
         else:
             all_teams = {v["team"]:True for (k,v) in scores.items()}.keys()
             matches = list(map(lambda x: (x, compare_team_name(team, x)), all_teams))
@@ -845,14 +834,13 @@ async def pteam(ctx):
 
             ret = list(map(lambda x: f"{x[0]}: {str(x[1])}", points))
 
-            nl = '\n'
-            await ctx.send(f"```{discord_format}\n{name}\n{nl.join(ret)}```")
+            await send_message(ctx, f"```{discord_format}\n{name}\n{nl.join(ret)}```")
     except Exception as e:
         print(e)
-        await ctx.send(f'pteam error: {str(e)}')
+        await send_message(ctx, f'pteam error: {str(e)}')
 
 @client.command()
-async def pstage(ctx):
+async def pstage(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         splmsg = msg.split(' ')
@@ -868,25 +856,25 @@ async def pstage(ctx):
         scores = get_rider_scores(scores_json)
         
 
-        await ctx.send(get_stage_points(stage, scores))
+        await send_message(ctx, get_stage_points(stage, scores))
     except Exception as e:
         print(e)
-        await ctx.send(f'pstage error: {str(e)}')
+        await send_message(ctx, f'pstage error: {str(e)}')
 
 @client.command()
-async def forcefix(ctx):
+async def forcefix(ctx: commands.Context):
     try:
-        await ctx.send("...")
+        await send_message(ctx, "...")
         rankings = await get_ordered_rankings(True)
         await sum_stages()
         new_highscore = rankings[0].score
         set_fetched_status(False, int(new_highscore), await get_deadline(), False)
-        await ctx.send("Tried to fix points")
+        await send_message(ctx, "Tried to fix points")
     except Exception as e:
-        await ctx.send(f"error in forcefix: {str(e)}")
+        await send_message(ctx, f"error in forcefix: {str(e)}")
 
 @client.command()
-async def holdet(ctx):
+async def holdet(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         spl = msg.split(' ')
@@ -895,7 +883,7 @@ async def holdet(ctx):
             if spl[0] in ['name', 'value', 'growth', 'totalgrowth', 'popularity', 'trend']:
                 sortby = spl[0]
             else:
-                await ctx.send(f"'{spl[0]}' is not a valid sort metric. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
+                await send_message(ctx, f"'{spl[0]}' is not a valid sort metric. Valid metrics are: name, value, growth, totalgrowth, popularity, trend")
                 return
         data = HoldetDKService.get_rider_values_formatted(holdet_tournament_id, holdet_game_id, get_current_stage())
         data.sort(key=lambda r: r[sortby], reverse=False if sortby == 'name' else True)
@@ -907,20 +895,19 @@ async def holdet(ctx):
                 data = list(filter(lambda r: r[sortby] > float(spl[2]) , data))
         
         if(len(data) == 0):
-            await ctx.send("No riders found")
+            await send_message(ctx, "No riders found")
         else:
             data = [{'name': 'Rider', 'value': 'value', 'growth': 'growth', 'totalgrowth': 'total growth', 'popularity': 'popularity', 'trend': 'trend'}] + data
-            chunks = [pretty_format(data[x:x+30]) for x in range(0, len(data), 30)]
-            for c in chunks:
-                await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+            formatted = [nl.join(pretty_format(data))]
+            await send_message(ctx, f"```{discord_format}\n{nl.join(formatted)}```")
     
 
     except Exception as e:
-        await ctx.send(f'error in holdet: {[str(e)]}')
+        await send_message(ctx, f'error in holdet: {[str(e)]}')
 
 
 @client.command()
-async def letour(ctx):
+async def letour(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         spl = msg.split(' ')
@@ -929,7 +916,7 @@ async def letour(ctx):
             d = await lts.get_rider_values(get_current_stage() + 1)
         
         if d == None:
-             await ctx.send(f"Couldn't get rider values from letour.fr")
+             await send_message(ctx, f"Couldn't get rider values from letour.fr")
              return
         data = [{
             'name': k, 
@@ -945,28 +932,26 @@ async def letour(ctx):
 
         output_data = list(map(lambda r: f'{r["name"]} - {r["value"]}', data))
         if(len(output_data) == 0):
-            await ctx.send("No riders found")
+            await send_message(ctx, "No riders found")
         else:
-            chunks = [output_data[x:x+40] for x in range(0, len(output_data), 40)]
-            chunks[0] = [(f'Rider - Value')] + chunks[0]
-            for c in chunks:
-                await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+            output_data = [(f'Rider - Value')] + output_data
+            await send_message(ctx, f"```{discord_format}\n{nl.join(output_data)}```")
     
     except Exception as e:
         print(e)
-        await ctx.send(f'error in letour: {[str(e)]}')
+        await send_message(ctx, f'error in letour: {[str(e)]}')
 
 @client.command()
-async def ratio(ctx):
+async def ratio(ctx: commands.Context):
     msg = ctx.message.content[7:].strip().lower()
     spl = msg.split(' ')
 
     available_sources = ['road', 'holdet']
     if len(spl) >= 2:
         if spl[0] not in available_sources:
-            await ctx.send(f"{spl[0]} is not a valid source. Available sources are {', '.join(available_sources)}")
+            await send_message(ctx, f"{spl[0]} is not a valid source. Available sources are {', '.join(available_sources)}")
         if spl[1] not in available_sources:
-            await ctx.send(f"{spl[1]} is not a valid source. Available sources are {', '.join(available_sources)}")
+            await send_message(ctx, f"{spl[1]} is not a valid source. Available sources are {', '.join(available_sources)}")
     else:
         spl = ['holdet', 'road']
 
@@ -998,9 +983,8 @@ async def ratio(ctx):
     res.sort(key=lambda x: x['ratio'], reverse=False)
     
     res = [{'name': 'Rider', spl[0]: spl[0], spl[1]: spl[1], f'{spl[1]} (adjusted)': f'{spl[1]} (adjusted)', 'ratio': 'ratio'}] + res
-    chunks = [pretty_format(res[x:x+25]) for x in range(0, len(res), 25)]
-    for c in chunks:
-        await ctx.send(f"```{discord_format}\n{nl.join(c)}```")
+    formatted = pretty_format(res)
+    await send_message(ctx, f"```{discord_format}\n{nl.join(formatted)}```")
 
 
 @tasks.loop(minutes=10)
@@ -1029,9 +1013,9 @@ async def job():
             stage = get_tomorrow_stage()
             hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
             minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
-            await send_message(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
-            await send_message(channel, "Following is next stage!")
-            await send_message(channel, get_profile(None, stage))
+            #await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
+            #await send_message_channel(channel, "Following is next stage!")
+            #await send_message_channel(channel, get_profile(None, stage))
             set_fetched_status(dont_look, lasthighscore, dl, True)
 
         # don't do anything on days without a race
@@ -1044,7 +1028,7 @@ async def job():
             d = await get_transfers(s)
             for k,v in d.items():
                 out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await send_message(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format if out != '' else ''}\n{out if out != '' else 'None'}```")
+                await send_message_channel(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format if out != '' else ''}\n{out if out != '' else 'None'}```")
 
             set_fetched_status(dont_look, lasthighscore, None, warned)
 
@@ -1055,7 +1039,7 @@ async def job():
             rankings = await get_ordered_rankings(True)
             
             if rankings == None:
-                await send_message(channel, f"bot couldn't login")
+                await send_message_channel(channel, f"bot couldn't login")
                 return
 
             new_highscore = rankings[0].score
@@ -1065,15 +1049,15 @@ async def job():
                 # update the rider rankings
                 scores = await sum_stages()
                 msg = get_stage_points(None, scores)
-                await send_message(channel, "**POINTS!**")
-                await send_message(channel, msg)
+                await send_message_channel(channel, "**POINTS!**")
+                await send_message_channel(channel, msg)
                 res = '**STANDARD**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
                 
                 
                 rankingsp = await get_ordered_rankings(False)
                 # check for scores in purist
                 if rankingsp == None:
-                    await send_message(channel, f"bot couldn't login")
+                    await send_message_channel(channel, f"bot couldn't login")
                     return
 
                 res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankingsp)))
@@ -1083,14 +1067,14 @@ async def job():
                 set_fetched_status(True, int(new_highscore), new_deadline, warned)
 
                 # send message to discord
-                await send_message(channel, res)
+                await send_message_channel(channel, res)
 
         # reset to track for new scores
         if(now.hour == 6):
             set_fetched_status(False, lasthighscore, deadline, False)
     except Exception as e:
         if channel:
-            await send_message(channel, (f"Error in loop: {str(e)}"))
+            await send_message_channel(channel, (f"Error in loop: {str(e)}"))
         print(e)
 
 def pretty_format(data: List[Dict[str, Any]]) -> List[str]:
@@ -1098,8 +1082,26 @@ def pretty_format(data: List[Dict[str, Any]]) -> List[str]:
     max_lengths = {key: max(len(str(item[key])) for item in data) for key in data[0].keys()}
     return [''.join(f'{v}{" " * ((1 + max_lengths[k]) - len(str(v)))}' for k, v in r.items()) for r in data]
 
-async def send_message(channel: GuildChannel, message):
+async def send_message_channel(channel: GuildChannel, message):
     await channel.send(message) # type: ignore
+
+async def send_message(ctx: commands.Context, message: str, iterated = False):
+    max_len = 2000 - len(discord_format) - len('```')
+    length = len(message)
+    if length <= max_len:
+        if iterated:
+            message = f'```{discord_format}{nl}{message}'
+        await ctx.send(message) # 
+    else:
+        if not message.startswith('```'):
+            message = f'```{discord_format}{nl}' + message
+        index = message.rfind('\n', 0, max_len)
+        if index != -1:
+            await ctx.send(message[:index] + ' ```')
+            await send_message(ctx, message[index+1:], True)
+        else:
+            await ctx.send(message[:max_len] + '```')
+            await send_message(ctx, message[max_len:], True)
 
 
 @client.listen()
