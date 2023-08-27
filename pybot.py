@@ -970,10 +970,6 @@ async def ratio(ctx):
     else:
         spl = ['holdet', 'road']
 
-
-    def normalize(value, min, max):
-        return (value - min) / (max - min)
-
     s1 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[0] == 'holdet' else get_from_template()
     s2 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[1] == 'holdet' else get_from_template()
     s1_max_val = max(s1.values(), key=lambda x: x['value'])['value']
@@ -1031,7 +1027,7 @@ async def job():
         ):
             dl = await get_deadline() if deadline == None else deadline 
             stage = get_tomorrow_stage()
-            hour = "" if dl == None else f'0{dl.hour}' if dl.minute < 10 else dl.hour
+            hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
             minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
             await send_message(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
             await send_message(channel, "Following is next stage!")
