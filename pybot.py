@@ -5,7 +5,7 @@ import requests
 from bs4 import BeautifulSoup, Tag
 from discord.abc import GuildChannel
 from discord.ext import tasks, commands
-from datetime import datetime
+from datetime import datetime, timedelta
 import datetime as dt
 import json
 from thefuzz import fuzz
@@ -138,15 +138,10 @@ class FantasyRow():
             self.increment += " - "
         return f"{icon}{self.increment}**{self.playername}** - _{self.daily_score}_ - **_{self.score}_**"
 
-def set_fetched_status(status, newscore, deadline, warned):
+def set_fetched_status(deadline: datetime | None, **kwargs):
     try:
-        data = {
-            "date": dt.date.today().strftime("%d%m%Y"),
-            "found": status,
-            "previoushigh": newscore,
-            "deadline": deadline.strftime("%d%m%Y,%H:%M") if deadline != None else None,
-            "warned": warned
-        }
+        data, _ = get_fetched_status()
+        data.update(kwargs)
         with open(status_json, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file)
     except Exception as e:
@@ -191,32 +186,108 @@ def compare_team_name(a: str, b: str):
 
     return fuzz.partial_ratio(a,b.lower())
 
-def get_fetched_status() -> Tuple[bool, Optional[int], Optional[datetime], bool]:
+def get_fetched_status() -> Tuple[dict[str, Any], Optional[datetime]]:
     data = {}
-    lastscore = None
     deadline = None
     try:
         with open(status_json, 'r', encoding='utf-8') as json_file:
             data = json.load(json_file)
-        day = data["date"][0:2]
-        month = data["date"][2:4]
-        year = data["date"][4:8]
-        today = dt.date.today().strftime("%d%m%Y")
-        tday = today[0:2]
-        tmonth = today[2:4]
-        tyear = today[4:8]
-        lastscore = data["previoushigh"]
         deadline = datetime.strptime(data["deadline"], "%d%m%Y,%H:%M") if data["deadline"] != None else None
-
-        # if we found the date we return its status
-        if(tday == day and tmonth == month and tyear == year):
-            return (data["found"], lastscore, deadline, data["warned"])
-
-        # otherwise assume it wasn't set
-        return (False, lastscore, deadline, False)
+        return (data, deadline)
     except Exception as e:
         print("Error in get fetched status", e)
-        return (False, lastscore, deadline, True)
+        return (data, deadline)
+
+
+async def warn(channel, hour, status_data, deadline, stage_delta = 0):
+    now = get_current_time()
+    warn_date = now + dt.timedelta(days=stage_delta)
+    if(
+        now.hour >= hour and not status_data.get('warned') and 
+        now >= startday - dt.timedelta(days=1) and now < endday and
+        len(list(filter(lambda d: d.day == warn_date.day and d.month == warn_date.month and d.year == warn_date.year, restdays))) == 0
+    ):
+        dl = await get_deadline() if deadline == None else deadline 
+        stage = get_current_stage() + stage_delta
+        hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
+        minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
+        await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
+        await send_message_channel(channel, "Following is next stage!")
+        await send_message_channel(channel, get_profile(None, stage))
+        set_fetched_status(dl, warned=True)
+
+async def warn_relative(channel, time_before: timedelta, status_data: dict, deadline: datetime | None, stage_delta = 0):
+    now = get_current_time()
+    dl = await get_deadline() if deadline == None else deadline
+    if(dl is None):
+        return
+    
+    warn_time = dl - time_before
+    if(
+        (not status_data.get('warned_onday') and warn_time >= now) and 
+        now >= startday - dt.timedelta(days=1) and now < endday and
+        len(list(filter(lambda d: d.day == dl.day and d.month == dl.month and d.year == dl.year, restdays))) == 0
+    ):
+        stage = get_current_stage() + stage_delta
+        hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
+        minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
+        #await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
+        #await send_message_channel(channel, "Following is next stage!")
+        #await send_message_channel(channel, get_profile(None, stage))
+        set_fetched_status(dl, warned_onday=True)
+
+async def look_for_transfers(channel, deadline):
+    now = get_current_time()
+    # wait for deadline to find peoples transfers
+    if deadline != None and now > deadline+dt.timedelta(minutes=2): # offset to ensure minor time differences
+        s = await login()
+        d = await get_transfers(s)
+        for k,v in d.items():
+            out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
+            await send_message_channel(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format if out != '' else ''}\n{out if out != '' else 'None'}```")
+
+        set_fetched_status(None)
+
+
+
+async def look_for_scores(channel, status_data):
+    now = get_current_time()
+    if((now.hour >= 17 or now.hour < 6) and not status_data.get('found')):
+        # check for scores in standard
+        rankings = await get_ordered_rankings(True)
+        
+        if rankings == None:
+            await send_message_channel(channel, f"bot couldn't login")
+            return
+
+        new_highscore = rankings[0].score
+        # ensure a score is found such that we continue checking
+        if(new_highscore != "-" and int(new_highscore) > (0 if status_data.get('previoushigh') is None else status_data.get('previoushigh', 0))):
+            
+            # update the rider rankings
+            scores = await sum_stages()
+            msg = get_stage_points(None, scores)
+            await send_message_channel(channel, "**POINTS!**")
+            await send_message_channel(channel, msg)
+            res = '**STANDARD**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
+            
+            
+            rankingsp = await get_ordered_rankings(False)
+            # check for scores in purist
+            if rankingsp == None:
+                await send_message_channel(channel, f"bot couldn't login")
+                return
+
+            res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankingsp)))
+
+            # no longer look for new scores
+            new_deadline = await get_deadline()
+            set_fetched_status(new_deadline, found=True, previoushigh=int(new_highscore))
+
+            # send message to discord
+            await send_message_channel(channel, res)
+
+
 
 async def get_rider(rid, s):
     page = s.get(f'https://fantasy.road.cc/common/ajax.php?action=rideroverlay&rid={rid}')
@@ -429,7 +500,7 @@ def get_stage_points(stage, scores):
         print(e)
         return "'{stage}' could not be found. He probably got 0 points or you spelled wrong."
 
-async def get_deadline(stage=None):
+async def get_deadline(stage=None) -> datetime | None:
     try:
         if stage == None:
             stage = get_current_stage()
@@ -446,7 +517,7 @@ async def get_deadline(stage=None):
         print(e)
         return None
 
-async def get_transfers(s):
+async def get_transfers(s) -> dict[str, dict]:
     # fetch rankings
     s = await set_context(s, True)
     # page = s.get(standard_url, params=params)
@@ -868,7 +939,7 @@ async def forcefix(ctx: commands.Context):
         rankings = await get_ordered_rankings(True)
         await sum_stages()
         new_highscore = rankings[0].score
-        set_fetched_status(False, int(new_highscore), await get_deadline(), False)
+        set_fetched_status(await get_deadline(), found=False, previoushigh=int(new_highscore), warned=False, warned_onday=False)
         await send_message(ctx, "Tried to fix points")
     except Exception as e:
         await send_message(ctx, f"error in forcefix: {str(e)}")
@@ -986,7 +1057,6 @@ async def ratio(ctx: commands.Context):
     formatted = pretty_format(res)
     await send_message(ctx, f"```{discord_format}\n{nl.join(formatted)}```")
 
-
 @tasks.loop(minutes=10)
 async def job():
     channel = None
@@ -998,80 +1068,24 @@ async def job():
     try:
 
         now = get_current_time()
-        tomorrow = now + dt.timedelta(days=1)
 
-        (dont_look, lasthighscore, deadline, warned) = get_fetched_status()
-        look_for_scores = not dont_look
+        (status_data, deadline) = get_fetched_status()
 
         # Daily reminder
-        if(
-            now.hour >= 21 and not warned and 
-            now >= startday - dt.timedelta(days=1) and now < endday and
-            len(list(filter(lambda d: d.day == tomorrow.day and d.month == tomorrow.month and d.year == tomorrow.year, restdays))) == 0
-        ):
-            dl = await get_deadline() if deadline == None else deadline 
-            stage = get_tomorrow_stage()
-            hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
-            minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
-            #await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
-            #await send_message_channel(channel, "Following is next stage!")
-            #await send_message_channel(channel, get_profile(None, stage))
-            set_fetched_status(dont_look, lasthighscore, dl, True)
+        await warn_relative(channel, timedelta(hours=1), status_data, deadline) # warn relative to deadline
+        await warn(channel, 21, status_data, deadline, 1) # warn at 21 about tomorrows stage
 
         # don't do anything on days without a race
         if(now < startday or now > endday or len(list(filter(lambda d: d.day == now.day and d.month == now.month and d.year == now.year, restdays))) > 0):
             return
 
-        # wait for deadline to find peoples transfers
-        if deadline != None and now > deadline+dt.timedelta(minutes=2): # offset to ensure minor time differences
-            s = await login()
-            d = await get_transfers(s)
-            for k,v in d.items():
-                out = '\n'.join(list(map(lambda t: f"{t[0]} -> {t[1]}", v["transfers"])))
-                await send_message_channel(channel, f"Transfers for {k}. {v['remaining']} remaining\n```{discord_format if out != '' else ''}\n{out if out != '' else 'None'}```")
-
-            set_fetched_status(dont_look, lasthighscore, None, warned)
-
-
-        # look for new scores if its between 17 and 6 and we haven't found any new scores yet
-        if((now.hour >= 17 or now.hour < 6) and look_for_scores):
-            # check for scores in standard
-            rankings = await get_ordered_rankings(True)
-            
-            if rankings == None:
-                await send_message_channel(channel, f"bot couldn't login")
-                return
-
-            new_highscore = rankings[0].score
-            # ensure a score is found such that we continue checking
-            if(new_highscore != "-" and int(new_highscore) > (0 if lasthighscore is None else lasthighscore)):
-                
-                # update the rider rankings
-                scores = await sum_stages()
-                msg = get_stage_points(None, scores)
-                await send_message_channel(channel, "**POINTS!**")
-                await send_message_channel(channel, msg)
-                res = '**STANDARD**\n' + '\n'.join(list(map(lambda x: x.toString(), rankings)))
-                
-                
-                rankingsp = await get_ordered_rankings(False)
-                # check for scores in purist
-                if rankingsp == None:
-                    await send_message_channel(channel, f"bot couldn't login")
-                    return
-
-                res += '\n\n**PURIST**\n' + '\n'.join(list(map(lambda x: x.toString(), rankingsp)))
-
-                # no longer look for new scores
-                new_deadline = await get_deadline()
-                set_fetched_status(True, int(new_highscore), new_deadline, warned)
-
-                # send message to discord
-                await send_message_channel(channel, res)
+        await look_for_transfers(channel, deadline)
+        await look_for_scores(channel, status_data)
 
         # reset to track for new scores
         if(now.hour == 6):
-            set_fetched_status(False, lasthighscore, deadline, False)
+            set_fetched_status(deadline, found=False, warned=False, warned_onday=False)
+
     except Exception as e:
         if channel:
             await send_message_channel(channel, (f"Error in loop: {str(e)}"))
@@ -1091,7 +1105,7 @@ async def send_message(ctx: commands.Context, message: str, iterated = False):
     if length <= max_len:
         if iterated:
             message = f'```{discord_format}{nl}{message}'
-        await ctx.send(message) # 
+        await ctx.send(message)
     else:
         if not message.startswith('```'):
             message = f'```{discord_format}{nl}' + message
