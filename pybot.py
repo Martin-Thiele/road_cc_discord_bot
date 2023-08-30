@@ -229,11 +229,10 @@ async def warn_relative(channel, time_before: timedelta, status_data: dict, dead
         len(list(filter(lambda d: d.day == dl.day and d.month == dl.month and d.year == dl.year, restdays))) == 0
     ):
         stage = get_current_stage() + stage_delta
-        hour = "" if dl == None else f'0{dl.hour}' if dl.hour < 10 else dl.hour
-        minute = "" if dl == None else f'0{dl.minute}' if dl.minute < 10 else dl.minute
-        #await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
-        #await send_message_channel(channel, "Following is next stage!")
-        #await send_message_channel(channel, get_profile(None, stage))
+        deadline_str = f'Deadline is in {warn_time.hour} hour {"s" if warn_time.hour > 1 else ""} {warn_time.minute} minutes'
+        await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}. {deadline_str}")
+        await send_message_channel(channel, "Following is next stage!")
+        await send_message_channel(channel, get_profile(None, stage))
         set_fetched_status(dl, warned_onday=True)
 
 async def look_for_transfers(channel, deadline):
