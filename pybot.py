@@ -1,4 +1,3 @@
-import asyncio
 from typing import Any, Dict, List, Optional, Tuple
 import discord
 import requests
@@ -138,9 +137,10 @@ class FantasyRow():
             self.increment += " - "
         return f"{icon}{self.increment}**{self.playername}** - _{self.daily_score}_ - **_{self.score}_**"
 
-def set_fetched_status(deadline: datetime | None, **kwargs):
+def set_fetched_status(deadline: Optional[datetime], **kwargs):
     try:
         data, _ = get_fetched_status()
+        data['deadline'] = deadline.strftime("%d%m%Y,%H:%M") if deadline != None else None
         data.update(kwargs)
         with open(status_json, 'w', encoding='utf-8') as json_file:
             json.dump(data, json_file)
@@ -216,7 +216,7 @@ async def warn(channel, hour, status_data, deadline, stage_delta = 0):
         await send_message_channel(channel, get_profile(None, stage))
         set_fetched_status(dl, warned=True)
 
-async def warn_relative(channel, time_before: timedelta, status_data: dict, deadline: datetime | None, stage_delta = 0):
+async def warn_relative(channel, time_before: timedelta, status_data: dict, deadline: Optional[datetime], stage_delta = 0):
     now = get_current_time()
     dl = await get_deadline() if deadline == None else deadline
     if(dl is None):
@@ -500,7 +500,7 @@ def get_stage_points(stage, scores):
         print(e)
         return "'{stage}' could not be found. He probably got 0 points or you spelled wrong."
 
-async def get_deadline(stage=None) -> datetime | None:
+async def get_deadline(stage=None) -> Optional[datetime]:
     try:
         if stage == None:
             stage = get_current_stage()
