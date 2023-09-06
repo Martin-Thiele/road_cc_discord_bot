@@ -607,7 +607,7 @@ def get_tracked():
 def add_to_transfer_tracker(name, uid):
     d = get_tracked()
     d[name] = str(uid)
-    with open("tracked.json", 'w', encoding='utf-8') as f:
+    with open("tracked.json", 'w+', encoding='utf-8') as f:
         return json.dump(d, f)
 
 def remove_from_transfer_tracker(uid):
