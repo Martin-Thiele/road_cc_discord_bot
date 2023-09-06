@@ -223,13 +223,14 @@ async def warn_relative(channel, time_before: timedelta, status_data: dict, dead
         return
     
     warn_time = dl - time_before
+    time_to_deadline = dl - now
     if(
         (not status_data.get('warned_onday') and now >= warn_time) and 
         now >= startday - dt.timedelta(days=1) and now < endday and
         len(list(filter(lambda d: d.day == dl.day and d.month == dl.month and d.year == dl.year, restdays))) == 0
     ):
         stage = get_current_stage() + stage_delta
-        deadline_str = f'Deadline is in {warn_time.hour} hour{"s" if warn_time.hour > 1 else ""}{warn_time.minute} minutes'
+        deadline_str = f'Deadline is in {int(time_to_deadline.total_seconds() // 3600)} hour{"" if int(time_to_deadline.total_seconds() // 3600) == 1 else "s"} {int(time_to_deadline.total_seconds() % 3600 // 60)} minutes'
         await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}. {deadline_str}")
         await send_message_channel(channel, "Following is next stage!")
         await send_message_channel(channel, get_profile(None, stage))
@@ -499,10 +500,8 @@ def get_stage_points(stage, scores):
         print(e)
         return "'{stage}' could not be found. He probably got 0 points or you spelled wrong."
 
-async def get_deadline(stage=None) -> Optional[datetime]:
+async def get_deadline() -> Optional[datetime]:
     try:
-        if stage == None:
-            stage = get_current_stage()
         s = await login()
         s = await set_context(s, True)
         page = s.get(deadline_url)
