@@ -627,7 +627,7 @@ async def track(ctx: commands.Context):
         s = await login()
         name = await get_player_from_uid(s, uid)
         add_to_transfer_tracker(name, uid)
-        await send_message(ctx, f"Added {uid} to players to track.")
+        await send_message(ctx, f"Added {name} to players to track.")
     except Exception as e:
         print(e)
         await send_message(ctx, f"Couldn't add player with id {uid}. {str(e)}")

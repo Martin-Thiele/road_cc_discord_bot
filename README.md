@@ -202,10 +202,12 @@ This will be a losely written guide.
 
 ```
 DISCORD_KEY=
-DISCORD_CHANNEL_ID=
 ROAD_USERNAME=
 ROAD_PASSWORD=
 ROAD_USERID=
+DISCORD_CHANNEL_ID=
+LETOUR_ACCESS_KEY=
+LETOUR_TOKEN=
 ```
 2 run `pip install -r requirements.txt` to install python dependencies
 
