@@ -518,12 +518,10 @@ async def get_deadline() -> Optional[datetime]:
 async def get_transfers(s) -> dict[str, dict]:
     # fetch rankings
     s = await set_context(s, True)
-    # page = s.get(standard_url, params=params)
-
     current_stage = get_current_stage()
 
     d = {}
-    players = get_tracked()
+    players = get_tracked().values()
     for p in players:
         remaining_transfers_page = s.get(remaining_url, params={"uid": p})
         remaining = BeautifulSoup(remaining_transfers_page.content, "html.parser")
@@ -556,6 +554,18 @@ async def get_transfers(s) -> dict[str, dict]:
                 d[playername]["transfers"] = c
 
     return d
+
+async def get_player_from_uid(s, uid: str):
+    todays_transfers_page = s.get(user_url, params={"uid": uid})
+    transfer_soup = BeautifulSoup(todays_transfers_page.content, "html.parser")
+    transfer_soup.prettify()
+    playername_el = transfer_soup.find("div", {"class": "gamewindow-title"})
+    if playername_el is None:
+        raise Exception('no player name found')
+    playername_title_el = playername_el.find("h1")
+    if playername_title_el is None or not isinstance(playername_title_el, Tag):
+        raise Exception('no player name found')
+    return playername_title_el.text[11:]
 
 async def get_transfers_for_player(s, uid, current_stage):
     remaining_transfers_page = s.get(remaining_url, params={"uid": uid})
@@ -594,9 +604,9 @@ def get_tracked():
     with open("tracked.json", 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def AddToTransferTracker(uid):
+def add_to_transfer_tracker(name, uid):
     d = get_tracked()
-    d[str(uid)] = True
+    d[name] = str(uid)
     with open("tracked.json", 'w', encoding='utf-8') as f:
         return json.dump(d, f)
 
@@ -614,27 +624,29 @@ async def shrewbs(ctx: commands.Context):
 async def track(ctx: commands.Context):
     uid = ctx.message.content[7:].strip()
     try:
-        AddToTransferTracker(uid)
+        s = await login()
+        name = await get_player_from_uid(s, uid)
+        add_to_transfer_tracker(name, uid)
         await send_message(ctx, f"Added {uid} to players to track.")
     except Exception as e:
         print(e)
-        await send_message(ctx, f"Added {uid} from players to track.")
+        await send_message(ctx, f"Couldn't add player with id {uid}. {str(e)}")
 
 @client.command()
 async def untrack(ctx: commands.Context):
-    uid = ctx.message.content[8:].strip()
+    name = ctx.message.content[8:].strip()
     try:
-        remove_from_transfer_tracker(uid)
-        await send_message(ctx, f"Removed {uid} from players to track.")
+        remove_from_transfer_tracker(name)
+        await send_message(ctx, f"Removed {name} from players to track.")
     except Exception as e:
         print(e)
-        await send_message(ctx, f"{uid} could not be added.")
+        await send_message(ctx, f"{name} could not be added.")
 
 @client.command()
 async def tracked(ctx: commands.Context):
     d = get_tracked()
-    user_ids = d.keys()
-    stringified = '\n'.join((map(lambda u: u, user_ids)))
+    names = d.keys()
+    stringified = 'None' if len(names) == 0 else '\n'.join((map(lambda u: u, names)))
     await send_message(ctx, f'```{discord_format}\n{stringified}```')
 
 @client.command()
