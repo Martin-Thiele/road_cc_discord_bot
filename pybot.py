@@ -23,21 +23,21 @@ load_dotenv()
 
 params = {
     'ldtid': '6',
-    'lid': '2142',
+    'lid': '2564',
 }
 competition_name = "Vuelta a Espana"
-puristId = 470
-standardId = 469
+puristId = 491
+standardId = 490
 
 restdays = [
-    datetime(2023, 9, 4),
-    datetime(2023, 9, 11),
+    datetime(2024, 5, 13),
+    datetime(2024, 5, 20),
 ]
-startday = datetime(2023, 8, 26)
-endday = datetime(2023, 9, 17)
+startday = datetime(2024, 5, 4)
+endday = datetime(2024, 5, 26)
 
-holdet_tournament_id = 450
-holdet_game_id = 672
+holdet_tournament_id = 462
+holdet_game_id = 692
 
 ##############################
 
@@ -96,8 +96,9 @@ def get_profile(tour = None, stage = None):
         return f'https://cdn.cyclingstage.com/images/tour-de-france/2023/stage-{stage}-profile.jpg'
     if tour == 'vuelta23' or tour == 'v23':
         return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
-
-    return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
+    if tour == 'giro24' or tour == 'g24':
+        return f'https://escapecollective.com/wp-content/uploads/2024/05/s{stage}.jpeg'
+    return f"https://escapecollective.com/wp-content/uploads/2024/05/s{stage}.jpeg"
 
 def get_tournament(str):
     lstr = str.lower()
@@ -109,7 +110,8 @@ def get_tournament(str):
         return ("giro23", giro23_rider_scores_json, True)
     if lstr == 'tdf23' or lstr == 'tour23':
         return ("tdf23", tdf23_rider_scores_json, True)
-    
+    if lstr == 'giro24' or lstr == 'g24':
+        return ("giro24", )
     return ('vuelta23', rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
@@ -1138,12 +1140,10 @@ client.run(os.getenv('DISCORD_KEY', ''))
 
 
 #async def main():
-    #await get_riders()
-    #await holdet('')
+#    await get_riders()
 
 
 
 #if __name__ ==  '__main__':
-#    loop = asyncio.get_event_loop()
-#    loop.run_until_complete(main())
-
+#    import asyncio
+#    asyncio.run(main())
