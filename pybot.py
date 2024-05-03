@@ -25,7 +25,7 @@ params = {
     'ldtid': '6',
     'lid': '2564',
 }
-competition_name = "Vuelta a Espana"
+competition_name = "GIRO D'ITALIA"
 puristId = 491
 standardId = 490
 
@@ -71,6 +71,7 @@ giro23_rider_scores_json = "rider_scores_giro23.json"
 tdf22_rider_scores_json = "rider_scores_tdf22.json"
 tdf23_rider_scores_json = "rider_scores_tdf23.json"
 vuelta22_rider_scores_json = "rider_scores_vuelta22.json"
+vuelta23_rider_scores_json = "rider_scores_vuelta23.json"
 
 login_data = {
     'user': os.getenv('ROAD_USERNAME'),
@@ -110,9 +111,11 @@ def get_tournament(str):
         return ("giro23", giro23_rider_scores_json, True)
     if lstr == 'tdf23' or lstr == 'tour23':
         return ("tdf23", tdf23_rider_scores_json, True)
+    if lstr == 'vuelta23' or lstr == 'v23':
+        return ('vuelta23', vuelta23_rider_scores_json, True)
     if lstr == 'giro24' or lstr == 'g24':
-        return ("giro24", )
-    return ('vuelta23', rider_scores_json, False)
+        return ("giro24", rider_scores_json, False)
+    return ("giro24", rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
     return f"https://fantasy.road.cc/common/ajax.php?action=pointsoverlay&uid={uid}&sid={sid}&cid={cid}&ttid=undefined"
