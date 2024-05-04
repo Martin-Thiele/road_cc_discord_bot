@@ -265,7 +265,7 @@ async def look_for_scores(channel, status_data):
             await send_message_channel(channel, f"bot couldn't login")
             return
 
-        new_highscore = rankings[0].score
+        new_highscore = rankings[0].score if any(rankings) else 0
         # ensure a score is found such that we continue checking
         if(new_highscore != "-" and int(new_highscore) > (0 if status_data.get('previoushigh') is None else status_data.get('previoushigh', 0))):
             
