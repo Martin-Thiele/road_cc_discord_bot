@@ -527,7 +527,6 @@ async def get_transfers(s) -> dict[str, dict]:
 
     d = {}
     players = get_tracked().values()
-    print(players)
     for p in players:
         remaining_transfers_page = s.get(remaining_url, params={"uid": p})
         remaining = BeautifulSoup(remaining_transfers_page.content, "html.parser")
@@ -1134,23 +1133,20 @@ async def send_message(ctx: commands.Context, message: str, iterated = False):
             await send_message(ctx, message[max_len:], True)
 
 
-# @client.listen()
-# async def on_ready():
-#     job.start()
+@client.listen()
+async def on_ready():
+    job.start()
 
 
 
-# client.run(os.getenv('DISCORD_KEY', ''))
+client.run(os.getenv('DISCORD_KEY', ''))
 
 
-async def main():
-    s = await login()
-    d = await get_transfers(s)
-    print(d)
+#async def main():
    #await get_riders()
 
 
 
-if __name__ ==  '__main__':
-   import asyncio
-   asyncio.run(main())
+# if __name__ ==  '__main__':
+#    import asyncio
+#    asyncio.run(main())
