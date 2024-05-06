@@ -48,7 +48,6 @@ intents.message_content = True
 client = commands.Bot(command_prefix="?", intents=intents)
 
 # endpoints
-template = "template.json"
 base_url = "https://fantasy.road.cc"
 login_url = "https://fantasy.road.cc/login"
 standard_url = "https://fantasy.road.cc/leagues"
@@ -64,6 +63,10 @@ comp_len = len(competition_name)
 
 # local database
 status_json = "fantasy_status.json"
+template_json = "template.json"
+tracked_json = "tracked.json"
+discord_users_list = "discord_users.txt" # seperated by newline
+
 
 # scores for current and old tournaments
 rider_scores_json = "rider_scores.json"
@@ -203,8 +206,17 @@ def get_fetched_status() -> Tuple[dict[str, Any], Optional[datetime]]:
         print("Error in get fetched status", e)
         return (data, deadline)
 
+def get_discord_users_to_warn() -> list[str]:
+    try:
+        with open(discord_users_list, 'r', encoding='utf-8') as txt:
+            return txt.split('\n')
+    except Exception as e:
+        print("Error in 'get_discord_users_to_warn()'", e)
+        return []
 
-async def warn(channel, hour, status_data, deadline, stage_delta = 0):
+
+
+async def warn(channel, hour, status_data, deadline, stage_delta = 0, warn_users_discord_ids = []):
     now = get_current_time()
     warn_date = now + dt.timedelta(days=stage_delta)
     if(
@@ -219,9 +231,11 @@ async def warn(channel, hour, status_data, deadline, stage_delta = 0):
         await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}.{f' Deadline is {hour}:{minute}' if hour != None else ''}")
         await send_message_channel(channel, "Following is next stage!")
         await send_message_channel(channel, get_profile(None, stage))
+        if any(warn_users_discord_ids):
+            await send_message_channel(channel, ", ".join(f"<@{uid}>" for uid in warn_users_discord_ids))
         set_fetched_status(dl, warned=True)
 
-async def warn_relative(channel, time_before: timedelta, status_data: dict, deadline: Optional[datetime], stage_delta = 0):
+async def warn_relative(channel, time_before: timedelta, status_data: dict, deadline: Optional[datetime], stage_delta = 0, warn_users_discord_ids = []):
     now = get_current_time()
     dl = await get_deadline() if deadline == None else deadline
     if(dl is None):
@@ -239,6 +253,8 @@ async def warn_relative(channel, time_before: timedelta, status_data: dict, dead
         await send_message_channel(channel, f":warning: Remember to set your team! :warning: It is stage {stage}. {deadline_str}")
         await send_message_channel(channel, "Following is next stage!")
         await send_message_channel(channel, get_profile(None, stage))
+        if any(warn_users_discord_ids):
+            await send_message_channel(channel, ", ".join(f"<@{uid}>" for uid in warn_users_discord_ids))
         set_fetched_status(dl, warned_onday=True)
 
 async def look_for_transfers(channel, deadline):
@@ -454,13 +470,13 @@ async def sum_stages():
     return d
 
 def get_from_template() -> Dict[str, Dict[str, Any]]:
-    with open(template, 'r', encoding='utf-8') as f:
+    with open(template_json, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def get_rider_scores(fx=rider_scores_json) -> Dict[str, Dict[str, Any]]:
     d = {}
     if(fx == rider_scores_json):
-        with open(template, 'r', encoding='utf-8') as t:
+        with open(template_json, 'r', encoding='utf-8') as t:
             d = json.load(t)
     
     with open(f'{results_folder}/{fx}', 'r', encoding='utf-8') as f:
@@ -606,19 +622,19 @@ async def get_transfers_for_player(s, uid, current_stage):
     return d
 
 def get_tracked():
-    with open("tracked.json", 'r', encoding='utf-8') as f:
+    with open(tracked_json, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def add_to_transfer_tracker(name, uid):
     d = get_tracked()
     d[name] = str(uid)
-    with open("tracked.json", 'w+', encoding='utf-8') as f:
+    with open(tracked_json, 'w+', encoding='utf-8') as f:
         return json.dump(d, f)
 
 def remove_from_transfer_tracker(uid):
     d = get_tracked()
     del d[str(uid)]
-    with open("tracked.json", 'w', encoding='utf-8') as f:
+    with open(tracked_json, 'w', encoding='utf-8') as f:
         return json.dump(d, f)
 
 @client.command()
@@ -1085,9 +1101,9 @@ async def job():
         now = get_current_time()
 
         (status_data, deadline) = get_fetched_status()
-
+        discord_userids_to_warn = get_discord_users_to_warn()
         # Daily reminder
-        await warn_relative(channel, timedelta(hours=1), status_data, deadline) # warn relative to deadline
+        await warn_relative(channel, timedelta(hours=1), status_data, deadline, discord_userids_to_warn) # warn relative to deadline
         await warn(channel, 21, status_data, deadline, 1) # warn at 21 about tomorrows stage
 
         # don't do anything on days without a race
