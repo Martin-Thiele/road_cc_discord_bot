@@ -209,7 +209,7 @@ def get_fetched_status() -> Tuple[dict[str, Any], Optional[datetime]]:
 def get_discord_users_to_warn() -> list[str]:
     try:
         with open(discord_users_list, 'r', encoding='utf-8') as txt:
-            return txt.split('\n')
+            return txt.read().split('\n')
     except Exception as e:
         print("Error in 'get_discord_users_to_warn()'", e)
         return []
@@ -1103,7 +1103,7 @@ async def job():
         (status_data, deadline) = get_fetched_status()
         discord_userids_to_warn = get_discord_users_to_warn()
         # Daily reminder
-        await warn_relative(channel, timedelta(hours=1), status_data, deadline, discord_userids_to_warn) # warn relative to deadline
+        await warn_relative(channel, timedelta(hours=1), status_data, deadline, 0, discord_userids_to_warn) # warn relative to deadline
         await warn(channel, 21, status_data, deadline, 1) # warn at 21 about tomorrows stage
 
         # don't do anything on days without a race
@@ -1127,7 +1127,7 @@ def pretty_format(data: List[Dict[str, Any]]) -> List[str]:
     max_lengths = {key: max(len(str(item[key])) for item in data) for key in data[0].keys()}
     return [''.join(f'{v}{" " * ((1 + max_lengths[k]) - len(str(v)))}' for k, v in r.items()) for r in data]
 
-async def send_message_channel(channel: GuildChannel, message):
+async def send_message_channel(channel: GuildChannel, message: str):
     await channel.send(message) # type: ignore
 
 async def send_message(ctx: commands.Context, message: str, iterated = False):
