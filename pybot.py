@@ -209,7 +209,8 @@ def get_fetched_status() -> Tuple[dict[str, Any], Optional[datetime]]:
 def get_discord_users_to_warn() -> list[str]:
     try:
         with open(discord_users_list, 'r', encoding='utf-8') as txt:
-            return txt.read().split('\n')
+            lines = txt.read().split('\n')
+            return list(filter(lambda l: l != '', lines))
     except Exception as e:
         print("Error in 'get_discord_users_to_warn()'", e)
         return []
