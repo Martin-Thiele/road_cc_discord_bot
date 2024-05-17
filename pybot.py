@@ -570,7 +570,7 @@ async def get_transfers(s) -> dict[str, dict]:
             stage = tds[1].text
             rider_in = tds[3].text
             rider_out = tds[4].text
-            if(stage[0:comp_len].lower() == competition_name.lower() and stage[comp_len+1:] == "stage "+str(current_stage)+"."):
+            if(stage[0:comp_len].lower() == competition_name.lower() and stage[comp_len+1:].rstrip('.') == "stage "+str(current_stage)):
                 c = d[playername]["transfers"]
                 c.append((rider_out, rider_in))
                 d[playername]["transfers"] = c
