@@ -735,7 +735,7 @@ async def stage(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         splmsg = msg.split(' ')
-        mbytour = ''
+        mbytour = None
         if len(splmsg) >= 2:
             stage = int(splmsg[1].strip())  # Extract the stage number
             mbytour = splmsg[0]  # Extract the tour identifier
@@ -745,6 +745,8 @@ async def stage(ctx: commands.Context):
         tour, _, old = get_tournament(mbytour)
 
         if(old):
+            stage = int(splmsg[1].strip()) if len(splmsg) > 1 else None
+        elif mbytour and not old:
             stage = int(splmsg[1].strip()) if len(splmsg) > 1 else None
         else:
             stage = int(msg.strip()) if len(msg) > 0 else None
