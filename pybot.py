@@ -108,6 +108,10 @@ def get_profile(tour = None, stage = None):
     return f'https://cdn.cyclingstage.com/images/tour-de-france/2024/stage-{stage}-profile.jpg'
 
 def get_tournament(str):
+    current_tour = None
+    if str is None:
+        return (current_tour, rider_scores_json, False)
+
     lstr = str.lower()
     if lstr == "tdf22" or lstr == 'tour22':
         return ("tdf22", tdf22_rider_scores_json, True)
@@ -120,10 +124,11 @@ def get_tournament(str):
     if lstr == 'vuelta23' or lstr == 'v23':
         return ('vuelta23', vuelta23_rider_scores_json, True)
     if lstr == 'giro24' or lstr == 'g24':
-        return ("giro24", rider_scores_json, False)
+        return ("giro24", rider_scores_json, True)
     if lstr == 'tdf24' or lstr == 'tour24':
         return ("tdf24", rider_scores_json, False)
-    return ("giro24", rider_scores_json, False)
+
+    return (current_tour, rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
     return f"https://fantasy.road.cc/common/ajax.php?action=pointsoverlay&uid={uid}&sid={sid}&cid={cid}&ttid=undefined"
@@ -740,7 +745,7 @@ async def stage(ctx: commands.Context):
             stage = int(splmsg[1].strip())  # Extract the stage number
             mbytour = splmsg[0]  # Extract the tour identifier
         else:
-            mbytour = splmsg[0]  # Only tour identifier is provided
+            mbytour = splmsg[0]  # Only stage identifier is provided
 
         tour, _, old = get_tournament(mbytour)
 
