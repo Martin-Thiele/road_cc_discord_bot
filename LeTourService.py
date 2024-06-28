@@ -9,28 +9,28 @@ class LeTourService:
         self.access_token = access_token
         self.x_access_key = x_access_key
 
-    async def get_rider_values(self, stage):
-        url = 'https://fantasybytissot.letour.fr/v1/private/searchjoueurs?lg=en'
+    def get_rider_values(self, stage):
+        url = "https://fantasybytissot.letour.fr/v1/private/searchjoueurs?lg=en"
         headers = {
-            'authorization': f'Token {self.access_token}',
-            'x-access-key': self.x_access_key
+            "authorization": f"Token {self.access_token}",
+            "x-access-key": self.x_access_key,
         }
 
         data = {
-            'filters': {
-                'nom': '',
-                'club': '',
-                'position': '',
-                'budget_ok': False,
-                'engage': False,
-                'partant': False,
-                'dreamteam': False,
-                'quota': '',
-                'idj': str(stage),
-                'pageIndex': 0,
-                'pageSize': 250,
-                'loadSelect': 0,
-                'searchonly': 1
+            "filters": {
+                "nom": "",
+                "club": "",
+                "position": "",
+                "budget_ok": False,
+                "engage": False,
+                "partant": False,
+                "dreamteam": False,
+                "quota": "",
+                "idj": str(stage),
+                "pageIndex": 0,
+                "pageSize": 250,
+                "loadSelect": 0,
+                "searchonly": 1,
             }
         }
 
@@ -38,5 +38,12 @@ class LeTourService:
         d = json.loads(resp.content)
         if "message" in d:
             return None
-        riderDict = {item['nomcomplet']: item['valeur'] for item in d['joueurs']}
+        riderDict = {item["nomcomplet"]: float(item["valeur"]) for item in d["joueurs"]}
         return riderDict
+
+    def get_rider_values_dict(self, stage):
+        d = self.get_rider_values(stage)
+        if d is None:
+            return {}
+
+        return {k: {"value": float(v)} for k, v in d.items()} 

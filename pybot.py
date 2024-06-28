@@ -1028,9 +1028,9 @@ async def letour(ctx: commands.Context):
     try:
         msg = ctx.message.content[7:].strip()
         spl = msg.split(' ')
-        d = await lts.get_rider_values(get_current_stage())
+        d = lts.get_rider_values(get_current_stage())
         if d == None:
-            d = await lts.get_rider_values(get_current_stage() + 1)
+            d = lts.get_rider_values(get_current_stage() + 1)
         
         if d == None:
              await send_message(ctx, f"Couldn't get rider values from letour.fr")
@@ -1063,17 +1063,17 @@ async def ratio(ctx: commands.Context):
     msg = ctx.message.content[7:].strip().lower()
     spl = msg.split(' ')
 
-    available_sources = ['road', 'holdet']
+    available_sources = ['road', 'holdet', 'letour']
     if len(spl) >= 2:
         if spl[0] not in available_sources:
             await send_message(ctx, f"{spl[0]} is not a valid source. Available sources are {', '.join(available_sources)}")
         if spl[1] not in available_sources:
             await send_message(ctx, f"{spl[1]} is not a valid source. Available sources are {', '.join(available_sources)}")
     else:
-        spl = ['holdet', 'road']
+        spl = ['holdet', 'road', 'letour']
 
-    s1 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[0] == 'holdet' else get_from_template()
-    s2 = HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage()) if spl[1] == 'holdet' else get_from_template()
+    s1 = get_rider_value_dict(spl[0])
+    s2 = get_rider_value_dict(spl[1])
     s1_max_val = max(s1.values(), key=lambda x: x['value'])['value']
     s1_min_val = min(s1.values(), key=lambda x: x['value'])['value']
     s2_min = min(s2.values(), key=lambda x: x['value'])['value']
@@ -1144,6 +1144,16 @@ def pretty_format(data: List[Dict[str, Any]]) -> List[str]:
 
 async def send_message_channel(channel: GuildChannel, message: str):
     await channel.send(message) # type: ignore
+
+def get_rider_value_dict(source: str):
+    if source == 'road':
+        return get_from_template()
+    if source == 'holdet':
+        return HoldetDKService.get_rider_values_dict(holdet_tournament_id, holdet_game_id, get_current_stage())
+    if source == 'letour':
+        return lts.get_rider_values_dict(get_current_stage())
+
+    return {}
 
 async def send_message(ctx: commands.Context, message: str, iterated = False):
     max_len = 2000 - len(discord_format) - len('```')
