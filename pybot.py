@@ -25,19 +25,19 @@ params = {
     'ldtid': '6',
     'lid': '2564',
 }
-competition_name = "GIRO D'ITALIA"
-puristId = 491
-standardId = 490
+competition_name = "TOUR DE FRANCE"
+standardId = 497
+puristId = 498
 
 restdays = [
-    datetime(2024, 5, 13),
-    datetime(2024, 5, 20),
+    datetime(2024, 7, 8),
+    datetime(2024, 7, 15),
 ]
-startday = datetime(2024, 5, 4)
-endday = datetime(2024, 5, 26)
+startday = datetime(2024, 6, 29)
+endday = datetime(2024, 7, 21)
 
-holdet_tournament_id = 462
-holdet_game_id = 692
+holdet_tournament_id = 465
+holdet_game_id = 696
 
 ##############################
 
@@ -71,6 +71,7 @@ discord_users_list = "discord_users.txt" # seperated by newline
 # scores for current and old tournaments
 rider_scores_json = "rider_scores.json"
 giro23_rider_scores_json = "rider_scores_giro23.json"
+giro24_rider_scores_json = "rider_scores_giro24.json"
 tdf22_rider_scores_json = "rider_scores_tdf22.json"
 tdf23_rider_scores_json = "rider_scores_tdf23.json"
 vuelta22_rider_scores_json = "rider_scores_vuelta22.json"
@@ -102,7 +103,9 @@ def get_profile(tour = None, stage = None):
         return f"https://cdn.cyclingstage.com/images/vuelta-spain/2023/stage-{stage}-profile.jpg"
     if tour == 'giro24' or tour == 'g24':
         return f'https://escapecollective.com/wp-content/uploads/2024/05/s{stage}.jpeg'
-    return f"https://escapecollective.com/wp-content/uploads/2024/05/s{stage}.jpeg"
+    if tour == 'tdf24' or tour == 'tour24':
+        return f'https://cdn.cyclingstage.com/images/tour-de-france/2024/stage-{stage}-profile.jpg'
+    return f'https://cdn.cyclingstage.com/images/tour-de-france/2024/stage-{stage}-profile.jpg'
 
 def get_tournament(str):
     lstr = str.lower()
@@ -118,6 +121,8 @@ def get_tournament(str):
         return ('vuelta23', vuelta23_rider_scores_json, True)
     if lstr == 'giro24' or lstr == 'g24':
         return ("giro24", rider_scores_json, False)
+    if lstr == 'tdf24' or lstr == 'tour24':
+        return ("tdf24", rider_scores_json, False)
     return ("giro24", rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
@@ -1159,8 +1164,8 @@ async def on_ready():
 client.run(os.getenv('DISCORD_KEY', ''))
 
 
-#async def main():
-   #await get_riders()
+# async def main():
+#    await get_riders()
 
 
 
