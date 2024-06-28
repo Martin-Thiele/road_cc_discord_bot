@@ -737,8 +737,10 @@ async def stage(ctx: commands.Context):
         splmsg = msg.split(' ')
         mbytour = ''
         if len(splmsg) >= 2:
-            mbytour = splmsg[0]
-        tour = None
+            stage = int(splmsg[1].strip())  # Extract the stage number
+            mbytour = splmsg[0]  # Extract the tour identifier
+        else:
+            mbytour = splmsg[0]  # Only tour identifier is provided
 
         tour, _, old = get_tournament(mbytour)
 
@@ -750,7 +752,7 @@ async def stage(ctx: commands.Context):
         if(stage is not None and stage > 21):
             await send_message(ctx, "No more stages left.")
 
-        if(stage == None):
+        if stage is None:
             await send_message(ctx, get_profile(tour))
         else:
             await send_message(ctx, get_profile(tour, stage))
