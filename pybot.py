@@ -25,19 +25,19 @@ params = {
     'ldtid': '6',
     'lid': '2564',
 }
-competition_name = "TOUR DE FRANCE"
-standardId = 497
-puristId = 498
+competition_name = "Vuelta a España"
+standardId = 502
+puristId = 503
 
 restdays = [
-    datetime(2024, 7, 8),
-    datetime(2024, 7, 15),
+    datetime(2024, 8, 26),
+    datetime(2024, 9, 2),
 ]
-startday = datetime(2024, 6, 29)
-endday = datetime(2024, 7, 21)
+startday = datetime(2024, 8, 17)
+endday = datetime(2024, 9, 8)
 
-holdet_tournament_id = 465
-holdet_game_id = 696
+holdet_tournament_id = 473
+holdet_game_id = 704
 
 ##############################
 
@@ -74,8 +74,10 @@ giro23_rider_scores_json = "rider_scores_giro23.json"
 giro24_rider_scores_json = "rider_scores_giro24.json"
 tdf22_rider_scores_json = "rider_scores_tdf22.json"
 tdf23_rider_scores_json = "rider_scores_tdf23.json"
+tdf24_rider_scores_json = "rider_scores_tdf24.json"
 vuelta22_rider_scores_json = "rider_scores_vuelta22.json"
 vuelta23_rider_scores_json = "rider_scores_vuelta23.json"
+#vuelta24_rider_scores_json = "rider_scores_vuelta24.json"
 
 login_data = {
     'user': os.getenv('ROAD_USERNAME'),
@@ -105,7 +107,9 @@ def get_profile(tour = None, stage = None):
         return f'https://escapecollective.com/wp-content/uploads/2024/05/s{stage}.jpeg'
     if tour == 'tdf24' or tour == 'tour24':
         return f'https://cdn.cyclingstage.com/images/tour-de-france/2024/stage-{stage}-profile.jpg'
-    return f'https://cdn.cyclingstage.com/images/tour-de-france/2024/stage-{stage}-profile.jpg'
+    if tour == 'vuelta24' or tour == 'v24':
+        return f'https://cdn.cyclingstage.com/images/vuelta-spain/2024/stage-{stage}-profile.jpg'
+    return f'https://cdn.cyclingstage.com/images/vuelta-spain/2024/stage-{stage}-profile.jpg'
 
 def get_tournament(str):
     current_tour = None
@@ -124,10 +128,11 @@ def get_tournament(str):
     if lstr == 'vuelta23' or lstr == 'v23':
         return ('vuelta23', vuelta23_rider_scores_json, True)
     if lstr == 'giro24' or lstr == 'g24':
-        return ("giro24", rider_scores_json, True)
+        return ("giro24", giro24_rider_scores_json, True)
     if lstr == 'tdf24' or lstr == 'tour24':
-        return ("tdf24", rider_scores_json, False)
-
+        return ("tdf24", tdf24_rider_scores_json, False)
+    if lstr == 'vuelta24' or lstr == 'v24':
+        return ("vuelta24", rider_scores_json, False)
     return (current_tour, rider_scores_json, False)
 
 def player_points_url(uid, sid, cid): 
