@@ -25,7 +25,7 @@ params = {
     'ldtid': '6',
     'lid': '2564',
 }
-competition_name = "Vuelta a España"
+competition_name = "Vuelta a Espana"
 standardId = 502
 puristId = 503
 
@@ -1182,16 +1182,13 @@ async def send_message(ctx: commands.Context, message: str, iterated = False):
 @client.listen()
 async def on_ready():
     job.start()
-
-
-
 client.run(os.getenv('DISCORD_KEY', ''))
 
 
 # async def main():
-#    await get_riders()
-
-
+#    s = await login()
+#    resp = await get_transfers(s)
+#    pass
 
 # if __name__ ==  '__main__':
 #    import asyncio
